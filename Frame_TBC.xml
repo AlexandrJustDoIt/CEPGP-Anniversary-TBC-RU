@@ -262,7 +262,7 @@
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_button_guild_traffic">
 								<Offset>
-									<AbsDimension x="5" y="-7" />
+									<AbsDimension x="0" y="-7" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -276,7 +276,7 @@
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="BOTTOMRIGHT" relativeTo="CEPGP_button_guild_traffic">
 								<Offset>
-									<AbsDimension x="75" y="-7" />
+									<AbsDimension x="41" y="-7" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -290,7 +290,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_guild_class">
 								<Offset>
-									<AbsDimension x="50" y="0" />
+									<AbsDimension x="78" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -304,7 +304,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_guild_rank">
 								<Offset>
-									<AbsDimension x="80" y="0" />
+									<AbsDimension x="81" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -318,7 +318,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT"  relativeTo="CEPGP_guild_EP">
 								<Offset>
-									<AbsDimension x="30" y="0" />
+									<AbsDimension x="13" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -332,7 +332,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT"  relativeTo="CEPGP_guild_GP">
 								<Offset>
-									<AbsDimension x="30" y="0" />
+									<AbsDimension x="52" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -574,7 +574,7 @@
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
 								<Offset>
-									<AbsDimension x="5" y="-50" />
+									<AbsDimension x="0" y="-50" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -591,7 +591,7 @@
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="BOTTOMRIGHT" relativeTo="CEPGP_button_guild_traffic">
 								<Offset>
-									<AbsDimension x="75" y="-7" />
+									<AbsDimension x="41" y="-7" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -608,7 +608,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_raid_class">
 								<Offset>
-									<AbsDimension x="50" y="0" />
+									<AbsDimension x="78" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -625,7 +625,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_raid_rank">
 								<Offset>
-									<AbsDimension x="80" y="0" />
+									<AbsDimension x="81" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -642,7 +642,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_raid_EP">
 								<Offset>
-									<AbsDimension x="30" y="0" />
+									<AbsDimension x="13" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -659,7 +659,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_raid_GP">
 								<Offset>
-									<AbsDimension x="30" y="0" />
+									<AbsDimension x="52" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -715,7 +715,7 @@
 					</Layer>
 				</Layers>
 				<Frames>
-					<Button name="CEPGP_loot_announce" inherits="CEPGPHeaderButton" text="Анонсировать">
+					<Button name="CEPGP_loot_announce" inherits="CEPGPHeaderButton" text="Разыграть">
 						<Size>
 							<AbsDimension x="50" y="20" />
 						</Size>
@@ -739,7 +739,7 @@
 							</Anchor>
 						</Anchors>
 					</Button>
-					<Button name="CEPGP_loot_GP" inherits="CEPGPHeaderButton" text="GP">
+					<Button name="CEPGP_loot_GP" inherits="CEPGPHeaderButton" text="ГП">
 						<Size>
 							<AbsDimension x="50" y="20" />
 						</Size>
@@ -775,7 +775,7 @@
 				</Size>
 				<Layers>
 					<Layer level="OVERLAY">
-						<FontString name="CEPGP_distribute_CEPGP_mode" inherits="GameFontNormal" text="Распределеняемый предмет">
+						<FontString name="CEPGP_distribute_CEPGP_mode" inherits="GameFontNormal" text="Распределяемый предмет">
 							<Color r="1" g="1" b="1"/>
 							<Anchors>
 								<Anchor point="CENTER" relativePoint="TOP">
@@ -930,7 +930,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="LEFT" relativeTo="CEPGP_distribute_raid_rank">
 								<Offset>
-									<AbsDimension x="105" y="0" />
+									<AbsDimension x="95" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -947,7 +947,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="LEFT" relativeTo="CEPGP_distribute_raid_response">
 								<Offset>
-									<AbsDimension x="69" y="0" />
+									<AbsDimension x="84" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -964,7 +964,7 @@
 						<Anchors>
 							<Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="CEPGP_distribute_raid_EP">
 								<Offset>
-									<AbsDimension x="65" y="0" />
+									<AbsDimension x="46" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -998,7 +998,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_distribute_raid_PR">
 								<Offset>
-									<AbsDimension x="10" y="0" />
+									<AbsDimension x="25" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -1637,7 +1637,7 @@
 			</Anchors>
 				<Scripts>
 					<OnLoad>
-						self:SetText("Give for\nFree");
+						self:SetText("Вручить\nБесплатно");
 					</OnLoad>
 				</Scripts>
 			</Button>
@@ -1690,7 +1690,7 @@
 					<OnClick>
 						if self:GetChecked() then
 							CEPGP_context_popup_GP_check:SetChecked(nil);
-							CEPGP_context_popup_desc:SetText("Add/Subtract EP");
+							CEPGP_context_popup_desc:SetText("Изменить ЕП");
 						else
 							self:SetChecked(1);
 						end
@@ -1712,7 +1712,7 @@
 					<OnClick>
 						if self:GetChecked() then
 							CEPGP_context_popup_EP_check:SetChecked(nil);
-							CEPGP_context_popup_desc:SetText("Add/Subtract GP");
+							CEPGP_context_popup_desc:SetText("Изменить ГП");
 						else
 							self:SetChecked(1);
 						end
@@ -1736,7 +1736,7 @@
 				</Texture>
 			</Layer>
 			<Layer level="OVERLAY">
-				<FontString name="CEPGP_context_popup_EP_check_text" inherits="GameFontNormal" text="EP">
+				<FontString name="CEPGP_context_popup_EP_check_text" inherits="GameFontNormal" text="ЕП">
 					<Anchors>
 						<Anchor point="LEFT" relativeTo="CEPGP_context_popup_EP_check" relativePoint="RIGHT">
 							<Offset>
@@ -1745,7 +1745,7 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="CEPGP_context_popup_GP_check_text" inherits="GameFontNormal" text="GP">
+				<FontString name="CEPGP_context_popup_GP_check_text" inherits="GameFontNormal" text="ГП">
 					<Anchors>
 						<Anchor point="LEFT" relativeTo="CEPGP_context_popup_GP_check" relativePoint="RIGHT">
 							<Offset>
@@ -2127,7 +2127,7 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="$parent_desc" inherits="GameFontNormal" text="Добавляет/вычитает определенное количество EP для всего рейда.">
+				<FontString name="$parent_desc" inherits="GameFontNormal" text="Изменить количество ЕП для всего рейда.">
 					<Anchors>
 						<Anchor point="TOP">
 							<Offset>
@@ -4228,7 +4228,7 @@
 						</Anchor>
 					</Anchors>
 				</Texture>
-				<FontString name="CEPGP_respond_title" inherits="GameFontNormal" text="Распределение предмета">
+				<FontString name="CEPGP_respond_title" inherits="GameFontNormal" text="Разыгрывается">
 					<Anchors>
 						<Anchor point="TOP">
 							<Offset>
@@ -4247,7 +4247,7 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="CEPGP_respond_gp" inherits="GameFontNormal" text="GP">
+				<FontString name="CEPGP_respond_gp" inherits="GameFontNormal" text="ГП">
 					<Color r="1" g="1" b="1"/>
 					<Anchors>
 						<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
@@ -6104,7 +6104,7 @@
 		</Layers>
 		<Scripts>
 			<OnLoad inherit="prepend">
-				CEPGP_import_guide_text:SetText("Paste a CSV formatted string in to\nthe box on the left and then\nclick the \"Import Standings\" button\nto confirm the changes.\nThe expected format to use is:\nplayer,EP,GP, (Include the\ntrailing comma after GP).\n\nA record of your guild standings\nwill be automatically saved incase\nyou need to revert the changes.");
+				CEPGP_import_guide_text:SetText("Вставьте строку в формате CSV\n в поле слева, а затем нажмите\n кнопку «Импорт рейтинга»,\n чтобы подтвердить изменения.\n Ожидаемый формат:\n Игрок, ЕП, ГП\n (включая запятую после ГП).\nЗапись о рейтинге вашей гильдии\n будет автоматически\n сохранена на случай,\n если вам потребуется\n отменить изменения.");
 			</OnLoad>
 			<OnMouseDown>
 				self:StartMoving();
@@ -7476,7 +7476,7 @@
 								<Anchor point="TOP" />
 							</Anchors>
 						</FontString>
-						<FontString name="CEPGP_interface_options_author" inherits="GameFontNormalSmall" text="Автор: Alumian, Терпила">
+						<FontString name="CEPGP_interface_options_author" inherits="GameFontNormalSmall" text="Автор: Alumian, Терпила ( Специально для гильдии Северные Волки)">
 							<Anchors>
 								<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="CEPGP_interface_options_version">
 									<AbsDimension x="0" y="-10" />
@@ -11406,7 +11406,7 @@
 				</Anchors>
 				<Layers>
 					<Layer level="OVERLAY">
-						<FontString name="CEPGP_GP_options_header" inherits="GameFontNormalLarge" text="Настройка очков GP для гира">
+						<FontString name="CEPGP_GP_options_header" inherits="GameFontNormalLarge" text="Настройка очков ГП для гира">
 							<Anchors>
 								<Anchor point="TOP" />
 							</Anchors>
@@ -11432,7 +11432,7 @@
 											</OnClick>
 											<OnEnter>
 												GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
-												GameTooltip:SetText("Примените модификатор GP к предметам в каждом рейде.");
+												GameTooltip:SetText("Примените модификатор ГП к предметам в каждом рейде.");
 											</OnEnter>
 											<OnLeave>
 												GameTooltip:Hide();
@@ -11457,7 +11457,7 @@
 											</OnClick>
 											<OnEnter>
 												GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
-												GameTooltip:SetText("Позволяет создавать постоянные переопределения значений GP для товаров.");
+												GameTooltip:SetText("Позволяет создавать постоянные переопределения значений ГП для товаров.");
 											</OnEnter>
 											<OnLeave>
 												GameTooltip:Hide();
@@ -11471,7 +11471,7 @@
 										</Anchors>
 										<Layers>
 											<Layer level="OVERLAY">
-												<FontString name="$parent_title" inherits="GameFontNormalLarge" text="GP Формула">
+												<FontString name="$parent_title" inherits="GameFontNormalLarge" text="ГП Формула">
 													<Anchors>
 														<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" />
 													</Anchors>
@@ -11760,7 +11760,7 @@
 										</Anchors>
 										<Layers>
 											<Layer level="OVERLAY">
-												<FontString name="$parent_text" inherits="GameFontNormalSmall" text="Начальный GP">
+												<FontString name="$parent_text" inherits="GameFontNormalSmall" text="Начальный ГП">
 													<Color r="1" g="1" b="1"/>
 													<Anchors>
 														<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" />
@@ -12632,7 +12632,7 @@
 														</Anchor>
 													</Anchors>
 												</FontString>
-												<FontString name="$parent_string_discount" inherits="GameFontNormal" text="% GP Скидка: ">
+												<FontString name="$parent_string_discount" inherits="GameFontNormal" text="% ГП Скидка: ">
 													<Anchors>
 														<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_string_text">
 															<AbsDimension x="0" y="-7" />
@@ -12839,7 +12839,7 @@
 														</Anchor>
 													</Anchors>
 												</FontString>
-												<FontString name="$parent_string_discount" inherits="GameFontNormal" text="% GP Скидка: ">
+												<FontString name="$parent_string_discount" inherits="GameFontNormal" text="% ГП Скидка: ">
 													<Anchors>
 														<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_string_text">
 															<AbsDimension x="0" y="-7" />
@@ -13052,7 +13052,7 @@
 														</Anchor>
 													</Anchors>
 												</FontString>
-												<FontString name="$parent_string_discount" inherits="GameFontNormal" text="% GP Скидка: ">
+												<FontString name="$parent_string_discount" inherits="GameFontNormal" text="% ГП Скидка: ">
 													<Anchors>
 														<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_string_text">
 															<AbsDimension x="0" y="-7" />
@@ -13268,7 +13268,7 @@
 														</Anchor>
 													</Anchors>
 												</FontString>
-												<FontString name="$parent_string_discount" inherits="GameFontNormal" text="% GP Скидка: ">
+												<FontString name="$parent_string_discount" inherits="GameFontNormal" text="% ГП Скидка: ">
 													<Anchors>
 														<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_string_text">
 															<AbsDimension x="0" y="-7" />
@@ -15019,7 +15019,7 @@
 							</OnTabPressed>
 						</Scripts>
 					</EditBox>
-					<Button name="CEPGP_options_alt_mangement_add_link" inherits="GameMenuButtonTemplate" text="Добавить ссылку на персонажа">
+					<Button name="CEPGP_options_alt_mangement_add_link" inherits="GameMenuButtonTemplate" text="Связать">
 						<Size>
 							<AbsDimension x="150" y="21" />
 						</Size>
@@ -15076,7 +15076,7 @@
 							</OnLeave>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_options_alt_mangement_remove_link" inherits="GameMenuButtonTemplate" text="Удалить символьную ссылку">
+					<Button name="CEPGP_options_alt_mangement_remove_link" inherits="GameMenuButtonTemplate" text="Отвязать">
 						<Size>
 							<AbsDimension x="150" y="21" />
 						</Size>
@@ -15126,7 +15126,7 @@
 							</OnLeave>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_options_alt_mangement_remove_main" inherits="GameMenuButtonTemplate" text="Удалить главного персонажа">
+					<Button name="CEPGP_options_alt_mangement_remove_main" inherits="GameMenuButtonTemplate" text="Удалить связь">
 						<Size>
 							<AbsDimension x="150" y="21" />
 						</Size>
@@ -15161,7 +15161,7 @@
 							</OnLeave>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_options_alt_mangement_clear_fields" inherits="GameMenuButtonTemplate" text="Очистить поля">
+					<Button name="CEPGP_options_alt_mangement_clear_fields" inherits="GameMenuButtonTemplate" text="Очистить все">
 						<Size>
 							<AbsDimension x="150" y="21" />
 						</Size>
@@ -15191,15 +15191,15 @@
 							<OnClick>
 								if self:GetChecked() then
 									CEPGP.Alt.BlockAwards = true;
-									CEPGP_print("Альт-аккаунты больше не могут напрямую зарабатывать EPGP.");
+									CEPGP_print("Альт-аккаунты больше не могут напрямую зарабатывать ЕП/ГП.");
 								else
 									CEPGP.Alt.BlockAwards = false;
-									CEPGP_print("Теперь альты могут зарабатывать EPGP.");
+									CEPGP_print("Теперь альты могут зарабатывать ЕП/ГП.");
 								end
 							</OnClick>
 							<OnEnter>
 								GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
-								GameTooltip:SetText("Блокировка изменений EPGP на дополнительных персонажах. При включении этой функции изменение статуса EPGP на дополнительных персонажах возможно только при изменении статуса на основном персонаже или при снижении или сбросе статуса.");
+								GameTooltip:SetText("Блокировка изменений ЕП/ГП на дополнительных персонажах. При включении этой функции изменение статуса ЕП/ГП на дополнительных персонажах возможно только при изменении статуса на основном персонаже или при снижении или сбросе статуса.");
 							</OnEnter>
 							<OnLeave>
 								GameTooltip:Hide();
@@ -15228,15 +15228,15 @@
 							<OnClick>
 								if self:GetChecked() then
 									CEPGP.Alt.SyncEP = true;
-									CEPGP_print("Синхронизация Alt EP включена");
+									CEPGP_print("Синхронизация Альтам ЕП включена");
 								else
 									CEPGP.Alt.SyncEP = false;
-									CEPGP_print("Синхронизация Alt EP отключена");
+									CEPGP_print("Синхронизация Альтам ЕП отключена");
 								end
 							</OnClick>
 							<OnEnter>
 								GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
-								GameTooltip:SetText("При включении этой функции дополнительные персонажи будут иметь тот же уровень EP, что и их основные персонажи.");
+								GameTooltip:SetText("При включении этой функции дополнительные персонажи будут иметь тот же уровень ЕП, что и их основные персонажи.");
 							</OnEnter>
 							<OnLeave>
 								GameTooltip:Hide();
@@ -15273,7 +15273,7 @@
 							</OnClick>
 							<OnEnter>
 								GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
-								GameTooltip:SetText("При включении этой функции дополнительные персонажи будут иметь тот же уровень GP, что и основные.");
+								GameTooltip:SetText("При включении этой функции дополнительные персонажи будут иметь тот же уровень ГП, что и основные.");
 							</OnEnter>
 							<OnLeave>
 								GameTooltip:Hide();
@@ -15302,12 +15302,12 @@
 								</Anchor>
 							</Anchors>
 						</FontString>
-						<FontString name="CEPGP_options_alt_mangement_main_name" inherits="GameFontNormal" text="Основные">
+						<FontString name="CEPGP_options_alt_mangement_main_name" inherits="GameFontNormal" text="Мейн">
 							<Anchors>
 								<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="CEPGP_options_alt_mangement_ScrollFrame" />
 							</Anchors>
 						</FontString>
-						<FontString name="CEPGP_options_alt_mangement_alt_name" inherits="GameFontNormal" text="Альты">
+						<FontString name="CEPGP_options_alt_mangement_alt_name" inherits="GameFontNormal" text="Альт">
 							<Anchors>
 								<Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeTo="CEPGP_options_alt_mangement_ScrollFrame" />
 							</Anchors>
@@ -15317,31 +15317,31 @@
 								<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_alt_mangement_ScrollFrame" />
 							</Anchors>
 						</FontString>
-						<FontString name="CEPGP_options_alt_mangement_new_main" inherits="GameFontNormal" text="Основные">
+						<FontString name="CEPGP_options_alt_mangement_new_main" inherits="GameFontNormal" text="Мейн">
 							<Anchors>
 								<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="CEPGP_options_alt_mangement_main_link" />
 							</Anchors>
 						</FontString>
-						<FontString name="CEPGP_options_alt_mangement_new_alt" inherits="GameFontNormal" text="Альты">
+						<FontString name="CEPGP_options_alt_mangement_new_alt" inherits="GameFontNormal" text="Альт">
 							<Anchors>
 								<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="CEPGP_options_alt_mangement_alt_link" />
 							</Anchors>
 						</FontString>
-						<FontString name="CEPGP_options_alt_mangement_block_awarding_text" inherits="GameFontNormal" text="Заблокировать Альтам изменение EPGP">
+						<FontString name="CEPGP_options_alt_mangement_block_awarding_text" inherits="GameFontNormal" text="Заблокировать Альтам изменение ЕП/ГП">
 							<Anchors>
 								<Anchor point="LEFT" relativePoint="LEFT" relativeTo="CEPGP_options_alt_mangement_block_awarding">
 									<AbsDimension x="-325" y="0" />
 								</Anchor>
 							</Anchors>
 						</FontString>
-						<FontString name="CEPGP_options_alt_mangement_sync_ep_text" inherits="GameFontNormal" text="Синхронизировать Альтам EP">
+						<FontString name="CEPGP_options_alt_mangement_sync_ep_text" inherits="GameFontNormal" text="Синхронизировать Альтам ЕП">
 							<Anchors>
 								<Anchor point="LEFT" relativePoint="LEFT" relativeTo="CEPGP_options_alt_mangement_sync_ep">
 									<AbsDimension x="-325" y="0" />
 								</Anchor>
 							</Anchors>
 						</FontString>
-						<FontString name="CEPGP_options_alt_mangement_sync_gp_text" inherits="GameFontNormal" text="Синхронизировать Альтам GP">
+						<FontString name="CEPGP_options_alt_mangement_sync_gp_text" inherits="GameFontNormal" text="Синхронизировать Альтам ГП">
 							<Anchors>
 								<Anchor point="LEFT" relativePoint="LEFT" relativeTo="CEPGP_options_alt_mangement_sync_gp">
 									<AbsDimension x="-325" y="0" />

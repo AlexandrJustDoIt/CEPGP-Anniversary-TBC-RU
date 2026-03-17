@@ -246,7 +246,7 @@ function CEPGP_UpdateGuildScrollBar()
 			local index = CEPGP_getIndex(name);
 			local EP, GP = CEPGP_getEPGP(name, index)
 			tempTable[count] = {
-				[1] = name,
+				[1] = string.gsub(name, "-.*", ""),
 				[2] = v[2], --Class
 				[3] = v[3], --Rank
 				[4] = v[4], --RankIndex
@@ -336,7 +336,7 @@ function CEPGP_UpdateRaidScrollBar()
 		local EP, GP = CEPGP_getEPGP(name, index);
 		if CEPGP_Info.Guild.Roster[name] then
 			tempTable[i] = {
-				[1] = CEPGP_Info.Raid.Roster[i][1], --Name
+				[1] = string.gsub(CEPGP_Info.Raid.Roster[i][1], "-.*", ""), --Name
 				[2] = CEPGP_Info.Raid.Roster[i][2], --Class
 				[3] = CEPGP_Info.Raid.Roster[i][3], --Rank
 				[4] = CEPGP_Info.Raid.Roster[i][4], --RankIndex
@@ -349,7 +349,7 @@ function CEPGP_UpdateRaidScrollBar()
 		else
 			EP, GP = 0, CEPGP.GP.Min;
 			tempTable[i] = {
-				[1] = CEPGP_Info.Raid.Roster[i][1], --Name
+				[1] = string.gsub(CEPGP_Info.Raid.Roster[i][1], "-.*", ""), --Name
 				[2] = CEPGP_Info.Raid.Roster[i][2], --Class
 				[3] = CEPGP_Info.Raid.Roster[i][3], --Rank
 				[4] = CEPGP_Info.Raid.Roster[i][4], --RankIndex
@@ -458,7 +458,7 @@ function CEPGP_UpdateVersionScrollBar()
 		if data[1] ~= "Не в сети" or (showOffline and data[1] == "Не в сети") then
 			if search == "RAID" and IsRaidMember(name) or search == "GUILD" and IsGuildMember(name) then	--Nested these statements for efficiency sake
 				local entry = {
-					[1] = name,
+					[1] = string.gsub(name, "-.*", ""),
 					[2] = data[1],
 					[3] = data[2],
 					[4] = data[3]

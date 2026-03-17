@@ -296,7 +296,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativePoint="LEFT" relativeTo="$parentInfo">
 							<Offset>
-								<AbsDimension x="195" y="0"/>
+								<AbsDimension x="165" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -305,7 +305,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativePoint="LEFT" relativeTo="$parentClass">
 							<Offset>
-								<AbsDimension x="82.5" y="0"/>
+								<AbsDimension x="112.5" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -374,7 +374,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativePoint="LEFT" relativeTo="$parentInfo">
 							<Offset>
-								<AbsDimension x="195" y="0"/>
+								<AbsDimension x="165" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -383,7 +383,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativePoint="LEFT" relativeTo="$parentClass">
 							<Offset>
-								<AbsDimension x="82.5" y="0"/>
+								<AbsDimension x="112.5" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>

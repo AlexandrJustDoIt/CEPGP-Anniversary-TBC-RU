@@ -490,7 +490,7 @@ function CEPGP_initMinimapIcon()
 			end,
 			OnEnter = function(self)
 				local inRaidText = "\nEPGP Годовщина TBC RU is " .. (CEPGP_Info.Active[1] and "|cFF00FF00active|r|c00FFC100" or "|cFFFF0000inactive|r|c00FFC100") .. " для этого рейда\n";
-				local text = "|c00FFC100EPGP Годовщина TBC RU\nВерсия: " .. CEPGP_Info.Version.Number .. " " .. CEPGP_Info.Version.Build .. "|r\n" .. ((IsInRaid() and CEPGP_isML() == 0) and inRaidText or "") .. "\nЛКМ: Показать главное окно CEPGP\nСКМ: Осмотр гильдии/рейда версии\nПКМ: открытие конфигурации";
+				local text = "|c00FFC100EPGP Годовщина TBC RU\nВерсия: " .. CEPGP_Info.Version.Number .. " "  .. "|r\n" .. ((IsInRaid() and CEPGP_isML() == 0) and inRaidText or "") .. "\nЛКМ: Показать главное окно CEPGP\nСКМ: Просмотр версии аддона\nПКМ: открытие конфигурации";
 				GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
 				GameTooltip:SetText(text);
 			end,

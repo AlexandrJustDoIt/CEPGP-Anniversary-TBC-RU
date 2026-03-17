@@ -100,9 +100,9 @@ function CEPGP_ListButton_OnClick(obj, button)
 			_G["CEPGP_context_popup_GP_check_text"]:Hide();
 			CEPGP_context_popup_EP_check:SetChecked(1);
 			CEPGP_context_popup_GP_check:SetChecked(nil);
-			CEPGP_context_popup_header:SetText("Standby EPGP Moderation");
-			CEPGP_context_popup_title:SetText("Modify EP for Standby List");
-			CEPGP_context_popup_desc:SetText("Add/Subtract EP");
+			CEPGP_context_popup_header:SetText("Модерация 'На Замене'");
+			CEPGP_context_popup_title:SetText("Изменить ЕП для списка 'На Замене'");
+			CEPGP_context_popup_desc:SetText("Изменение ЕП");
 			CEPGP_context_amount:SetText("0");
 			CEPGP_context_popup_confirm:SetScript('OnClick', function()
 					if string.find(CEPGP_context_amount:GetText(), '[^0-9%-]') then
@@ -279,13 +279,13 @@ function CEPGP_ListButton_OnClick(obj, button)
 					CEPGP_distribute_popup_title:SetText(player .. " (Exclusion List)");
 					CEPGP_distribute_popup_gp_full:Hide();
 					CEPGP_distribute_popup_gp:Show();
-					CEPGP_distribute_popup_gp:SetText("Give for " .. discGP .. "\n(" .. reason .. ")");
+					CEPGP_distribute_popup_gp:SetText("Вручить за " .. discGP .. "\n(" .. reason .. ")");
 				else
 					CEPGP_distribute_popup_title:SetText(player .. " (" .. reason .. ")");
 					CEPGP_distribute_popup_gp_full:Show();
-					CEPGP_distribute_popup_gp_full:SetText("Give for " .. gp .. "\n(Standard Price)");
+					CEPGP_distribute_popup_gp_full:SetText("Вручить за " .. gp .. "\n(Стандартную цену)");
 					if discount ~= 0 then
-						CEPGP_distribute_popup_gp:SetText("Give for " .. discGP .. "\n(" .. reason .. ")");
+						CEPGP_distribute_popup_gp:SetText("Вручить за " .. discGP .. "\n(" .. reason .. ")");
 						CEPGP_distribute_popup_gp:Show();
 					else
 						CEPGP_distribute_popup_gp:Hide();
@@ -293,7 +293,7 @@ function CEPGP_ListButton_OnClick(obj, button)
 				end
 			else
 				CEPGP_distribute_popup_title:SetText(player);
-				CEPGP_distribute_popup_gp_full:SetText("Give for " .. gp .. "\n(Standard Price)");
+				CEPGP_distribute_popup_gp_full:SetText("Вручить за " .. gp .. "\n(Стандартную цену)");
 				CEPGP_distribute_popup_gp:Hide();
 			end
 			
@@ -337,7 +337,7 @@ function CEPGP_ListButton_OnClick(obj, button)
 		elseif strfind(obj, "GuildButton") then --A player from the guild menu is clicked (awards EP)
 			local frame = _G[obj];
 			local excluded = frame:GetAttribute("excluded");
-			local name = _G[obj.. "Info"]:GetText();
+			local name = CEPGP_NormalizeName(_G[obj.. "Info"]:GetText());
 			if excluded then
 				CEPGP_print("You cannot modify EPGP for " .. name .. " because their rank has been excluded");
 				return;
@@ -350,9 +350,9 @@ function CEPGP_ListButton_OnClick(obj, button)
 			_G["CEPGP_context_popup_GP_check_text"]:Show();
 			CEPGP_context_popup_EP_check:SetChecked(1);
 			CEPGP_context_popup_GP_check:SetChecked(nil);
-			CEPGP_context_popup_header:SetText("Guild Moderation");
-			CEPGP_context_popup_title:SetText("Modify EP/GP for \n" .. Ambiguate(name,"mail"));
-			CEPGP_context_popup_desc:SetText("Add/Subtract EP");
+			CEPGP_context_popup_header:SetText("Модерация гильдии");
+			CEPGP_context_popup_title:SetText("Изменение опчков ЕП/ГП для \n" .. Ambiguate(name,"mail"));
+			CEPGP_context_popup_desc:SetText("Изменение опчков ЕП");
 			CEPGP_context_amount:SetText("0");
 			CEPGP_context_popup_confirm:SetScript('OnClick', function()
 				local amount = CEPGP_context_amount:GetText();
@@ -381,9 +381,9 @@ function CEPGP_ListButton_OnClick(obj, button)
 			_G["CEPGP_context_popup_GP_check_text"]:Hide();
 			CEPGP_context_popup_EP_check:SetChecked(1);
 			CEPGP_context_popup_GP_check:SetChecked(nil);
-			CEPGP_context_popup_header:SetText("Guild Moderation");
-			CEPGP_context_popup_title:SetText("Modify Guild EP");
-			CEPGP_context_popup_desc:SetText("Adds/Subtracts EP for all guild members");
+			CEPGP_context_popup_header:SetText("Модерация гильдии");
+			CEPGP_context_popup_title:SetText("Изменение опчков ЕП");
+			CEPGP_context_popup_desc:SetText("Добавить/отнять очки ЕП \nдля всех членов гильдии.");
 			CEPGP_context_amount:SetText("0");
 			CEPGP_context_popup_confirm:SetScript('OnClick', function()
 				local amount = CEPGP_context_amount:GetText();
@@ -405,15 +405,15 @@ function CEPGP_ListButton_OnClick(obj, button)
 			CEPGP_decay_popup_amount:SetText("0");
 			local EP, GP; -- Whether or not this is an EP or GP specific decay
 			if obj == "CEPGP_guild_decay_EP" then
-				CEPGP_decay_popup_header:SetText("Decay Guild EP");
+				CEPGP_decay_popup_header:SetText("Гильдия ЕП");
 				EP = true;
 			elseif obj == "CEPGP_guild_decay_GP" then
-				CEPGP_decay_popup_header:SetText("Decay Guild GP");
+				CEPGP_decay_popup_header:SetText("Гильдия ГП");
 				GP = true;
 			else
-				CEPGP_decay_popup_header:SetText("Decay Guild EPGP");
+				CEPGP_decay_popup_header:SetText("Изменение ЕП/ГП");
 			end
-			CEPGP_decay_popup_desc:SetText("Positive numbers decay | Negative numbers inflate");
+			CEPGP_decay_popup_desc:SetText("Положительные числа убывают | Отрицательные числа увеличиваются");
 			CEPGP_decay_popup_confirm:SetScript('OnClick', function()
 				local amount = CEPGP_decay_popup_amount:GetText();
 				local fixed = CEPGP_decay_popup_fixed_check:GetChecked();
@@ -439,9 +439,9 @@ function CEPGP_ListButton_OnClick(obj, button)
 			_G["CEPGP_context_popup_GP_check_text"]:Hide();
 			CEPGP_context_popup_EP_check:SetChecked(nil);
 			CEPGP_context_popup_GP_check:SetChecked(nil);
-			CEPGP_context_popup_header:SetText("Guild Moderation");
-			CEPGP_context_popup_title:SetText("Reset Guild EPGP");
-			CEPGP_context_popup_desc:SetText("Resets the Guild EPGP standings\n|c00FF0000Are you sure that is what you want to do?\nthis cannot be reversed!|r");
+			CEPGP_context_popup_header:SetText("Модерация гильдии");
+			CEPGP_context_popup_title:SetText("Сброс очков гильдии");
+			CEPGP_context_popup_desc:SetText("Сбрасывает рейтинг ЕП/ГП гильдии\n|c00FF0000Вы уверены, что хотите это сделать?\nЭто нельзя отменить!|r");
 			CEPGP_context_popup_confirm:SetScript('OnClick', function()
 				PlaySound(799);
 				HideUIPanel(CEPGP_context_popup);
@@ -453,9 +453,9 @@ function CEPGP_ListButton_OnClick(obj, button)
 		elseif strfind(obj, "RaidButton") then --A player from the raid menu is clicked (awards EP)
 			local frame = _G[obj];
 			local excluded = frame:GetAttribute("excluded");
-			local name = _G[obj.. "Info"]:GetText();
+			local name = CEPGP_NormalizeName(_G[obj.. "Info"]:GetText());
 			if not CEPGP_getGuildInfo(name) then
-				CEPGP_print(name .. " is not a guild member - Cannot award EP or GP", true);
+				CEPGP_print(name .. " Не является членом гильдии — нельзя начислить EP или GP.", true);
 				return;
 			end
 			if excluded then
@@ -470,9 +470,9 @@ function CEPGP_ListButton_OnClick(obj, button)
 			_G["CEPGP_context_popup_GP_check_text"]:Show();
 			CEPGP_context_popup_EP_check:SetChecked(1);
 			CEPGP_context_popup_GP_check:SetChecked(nil);
-			CEPGP_context_popup_header:SetText("Raid Moderation");
-			CEPGP_context_popup_title:SetText("Modify EP/GP for \n" .. Ambiguate(name,"mail"));
-			CEPGP_context_popup_desc:SetText("Add/Subtract EP");
+			CEPGP_context_popup_header:SetText("Модерация рейдов");
+			CEPGP_context_popup_title:SetText("Изменить ЕП/ГП для \n" .. Ambiguate(name,"mail"));
+			CEPGP_context_popup_desc:SetText("Изменить ЕП");
 			CEPGP_context_amount:SetText("0");
 			CEPGP_context_popup_confirm:SetScript('OnClick', function()
 				local amount = CEPGP_context_amount:GetText();

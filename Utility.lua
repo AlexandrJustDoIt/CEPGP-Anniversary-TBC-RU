@@ -401,13 +401,13 @@ function CEPGP_initInterfaceOptions()
 	CEPGP_Info.category = categoryMain;
 
 	panel.ep = _G["CEPGP_EP_options"];
-	panel.ep.name = "Настройки EP";
+	panel.ep.name = "Настройки ЕП";
 	panel.ep.parent = panel.main.name;
     local categoryEp, _ = Settings.RegisterCanvasLayoutSubcategory(categoryMain, panel.ep, panel.ep.name);
     Settings.RegisterAddOnCategory(categoryEp);
 	
 	panel.gp = _G["CEPGP_GP_options"];
-	panel.gp.name = "Настройки GP";
+	panel.gp.name = "Настройки ГП";
 	panel.gp.parent = panel.main.name;
 	local categoryGp, _ = Settings.RegisterCanvasLayoutSubcategory(categoryMain, panel.gp, panel.gp.name);
     Settings.RegisterAddOnCategory(categoryGp);
