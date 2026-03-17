@@ -562,11 +562,11 @@ function CEPGP_announceResponses()
 				if CEPGP.Loot.DelayResponses and CEPGP.Loot.RollWithDelay then
 					roll = CEPGP_Info.Loot.ItemsTable[name][4];
 				end
-				if #(msg .. name .. (PR and " (PR " .. PR .. ")" or "") .. (roll and " (Roll " .. roll .. ")" or "")) > 249 then
+				if #(msg .. string.gsub(name, "-.*", "") .. (PR and " (Пр " .. PR .. ")" or "") .. (roll and " (Ролл " .. roll .. ")" or "")) > 249 then
 					SendChatMessage(msg, "RAID", CEPGP_Info.Language);
-					msg = label .. " (Continued): " .. name .. (PR and " (PR " .. PR .. ")" or "") .. (roll and " (Roll " .. roll .. ")" or "");
+					msg = label .. " (Продолжается): " .. name .. (PR and " (Пр " .. PR .. ")" or "") .. (roll and " (Ролл " .. roll .. ")" or "");
 				else
-					msg = msg .. name .. (PR and " (PR " .. PR .. ")" or "") .. (roll and " (Roll " .. roll .. ")" or "") .. ((index < #responses[label]) and ", " or "");
+					msg = msg .. string.gsub(name, "-.*", "") .. (PR and " (Пр " .. PR .. ")" or "") .. (roll and " (Ролл " .. roll .. ")" or "") .. ((index < #responses[label]) and ", " or "");
 				end
 			end
 			local message = "!need;"..name..";"..CEPGP_Info.Loot.DistributionID..";"..CEPGP_Info.Loot.ItemsTable[name][3]..";"..CEPGP_Info.Loot.ItemsTable[name][4];

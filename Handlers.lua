@@ -80,9 +80,9 @@ function CEPGP_handleComms(event, arg1, arg2, response, lootGUID)
 					if inGuild and not CEPGP.Loot.SuppressResponses then
 						if (CEPGP_getResponse(arg1) or CEPGP_getResponseIndex(arg1) or response < 5) then
 							if CEPGP.Loot.RollAnnounce then
-								CEPGP_sendChatMessage(name .. " (" .. class .. ") выбрал (" .. reason .. "). (" .. PR .. " PR) (Ролл " .. roll .. ")", CEPGP.LootChannel);
+								CEPGP_sendChatMessage(name .. " (" .. class .. ") выбрал (" .. reason .. "). (" .. PR .. " Пр) (Ролл " .. roll .. ")", CEPGP.LootChannel);
 							else
-								CEPGP_sendChatMessage(name .. " (" .. class .. ") выбрал (" .. reason .. "). (" .. PR .. " PR)", CEPGP.LootChannel);
+								CEPGP_sendChatMessage(name .. " (" .. class .. ") выбрал (" .. reason .. "). (" .. PR .. " Пр)", CEPGP.LootChannel);
 							end
 						end
 					elseif not CEPGP.Loot.SuppressResponses then
@@ -120,10 +120,10 @@ function CEPGP_handleComms(event, arg1, arg2, response, lootGUID)
 			local sender = name;
 			local index = CEPGP_getIndex(sender);
 			EP, GP = CEPGP_getEPGP(sender, index);
-			if CEPGP_Info.Version.List[sender][1] == "Addon not enabled" then
-				SendChatMessage("EPGP Standings - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. math.floor((EP/GP)*100)/100, "WHISPER", CEPGP_Info.Language, arg2);
+			if CEPGP_Info.Version.List[sender][1] == "Аддон не включен" then
+				SendChatMessage("EPGP Standings - ЕП: " .. EP .. " / ГП: " .. GP .. " / Пр: " .. math.floor((EP/GP)*100)/100, "WHISPER", CEPGP_Info.Language, arg2);
 			else
-				CEPGP_addAddonMsg("!info;" .. name .. ";EPGP Standings - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. math.floor((EP/GP)*100)/100, "GUILD");
+				CEPGP_addAddonMsg("!info;" .. name .. ";EPGP Standings - ЕП: " .. EP .. " / ГП: " .. GP .. " / Пр: " .. math.floor((EP/GP)*100)/100, "GUILD");
 			end
 		end
 	elseif event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == "!infoguild" or string.lower(arg1) == "!inforaid" or string.lower(arg1) == "!infoclass") then
@@ -155,10 +155,10 @@ function CEPGP_handleComms(event, arg1, arg2, response, lootGUID)
 				
 				for index, data in ipairs(roster) do
 					if data[1] == target then
-						if CEPGP_Info.Version.List[target][1] == "Addon not enabled" then
-							SendChatMessage("EP: " .. data[3] .. " / GP: " .. data[4] .. " / PR: " .. data[5] .. " / PR rank in Guild: #" .. index, "WHISPER", CEPGP_Info.Language, target);
+						if CEPGP_Info.Version.List[target][1] == "Аддон не включен" then
+							SendChatMessage("ЕП: " .. data[3] .. " / ГП: " .. data[4] .. " / Пр: " .. data[5] .. " / Пр ранг в Гильдии: #" .. index, "WHISPER", CEPGP_Info.Language, target);
 						else
-							CEPGP_addAddonMsg("!info;" .. target .. ";EP: " .. data[3] .. " / GP: " .. data[4] .. " / PR: " .. data[5] .. " / PR rank in Guild: #" .. index, "WHISPER", target);
+							CEPGP_addAddonMsg("!info;" .. target .. ";ЕП: " .. data[3] .. " / ГП: " .. data[4] .. " / Пр: " .. data[5] .. " / PR ранг в Гильдии: #" .. index, "WHISPER", target);
 						end
 						break;
 					end
@@ -173,10 +173,10 @@ function CEPGP_handleComms(event, arg1, arg2, response, lootGUID)
 				
 				for index, data in ipairs(roster) do
 					if data[1] == target then
-						if CEPGP_Info.Version.List[target][1] == "Addon not enabled" then
-							SendChatMessage("EP: " .. data[5] .. " / GP: " .. data[6] .. " / PR: " .. data[7] .. " / PR rank in Raid: #" .. index, "WHISPER", CEPGP_Info.Language, target);
+						if CEPGP_Info.Version.List[target][1] == "Аддон не включен" then
+							SendChatMessage("ЕП: " .. data[5] .. " / ГП: " .. data[6] .. " / Пр: " .. data[7] .. " / Пр ранг в рейде: #" .. index, "WHISPER", CEPGP_Info.Language, target);
 						else
-							CEPGP_addAddonMsg("!info;" .. target .. ";EP: " .. data[5] .. " / GP: " .. data[6] .. " / PR: " .. data[7] .. " / PR rank in Raid: #" .. index, "WHISPER", target);
+							CEPGP_addAddonMsg("!info;" .. target .. ";ЕП: " .. data[5] .. " / ГП: " .. data[6] .. " / PR: " .. data[7] .. " / PR rank in Raid: #" .. index, "WHISPER", target);
 						end
 						break;
 					end
@@ -212,10 +212,10 @@ function CEPGP_handleComms(event, arg1, arg2, response, lootGUID)
 				
 				for index, data in ipairs(roster) do
 					if data[1] == target then
-						if CEPGP_Info.Version.List[target][1] == "Addon not enabled" then
-							SendChatMessage("EP: " .. data[5] .. " / GP: " .. data[6] .. " / PR: " .. data[7] .. " / PR rank among " .. class .. "s in Raid: #" .. index, "WHISPER", CEPGP_Info.Language, target);
+						if CEPGP_Info.Version.List[target][1] == "Аддон не включен" then
+							SendChatMessage("ЕП: " .. data[5] .. " / ГП: " .. data[6] .. " / Пр: " .. data[7] .. " / Пр ранг among " .. class .. "s in Raid: #" .. index, "WHISPER", CEPGP_Info.Language, target);
 						else
-							CEPGP_addAddonMsg("!info;" .. target .. ";EP: " .. data[5] .. " / GP: " .. data[6] .. " / PR: " .. data[7] .. " / PR rank among " .. class .. "s in Raid: #" .. index, "WHISPER", target);
+							CEPGP_addAddonMsg("!info;" .. target .. ";ЕП: " .. data[5] .. " / ГП: " .. data[6] .. " / Пр: " .. data[7] .. " / PR rank among " .. class .. "s in Raid: #" .. index, "WHISPER", target);
 						end
 						break;
 					end
@@ -356,10 +356,10 @@ function CEPGP_handleLoot(event, arg1, arg2)
 					
 					if distGP then
 						if response then
-							local message = player .. " получает награду " .. itemName .. " за " .. gpValue*rate .. " GP (" .. response .. ")";
+							local message = player .. " получает награду " .. itemName .. " за " .. gpValue*rate .. " ГП (" .. response .. ")";
 							SendChatMessage(message, CEPGP.Channel, CEPGP_Info.Language);
 						else
-							local message = player.. " получает награду " .. itemName .. " за " .. gpValue*rate .. " GP";
+							local message = player.. " получает награду " .. itemName .. " за " .. gpValue*rate .. " ГП";
 							SendChatMessage(message, CEPGP.Channel, CEPGP_Info.Language);
 						end
 						CEPGP_addGP(player, gpValue*rate, id, link, nil, response);

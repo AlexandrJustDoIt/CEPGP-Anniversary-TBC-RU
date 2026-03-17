@@ -146,7 +146,7 @@
 					<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_button_guild" />
 				</Anchors>
 				<Frames>
-					<Button name="CEPGP_button_guild_dump" inherits="GameMenuButtonTemplate" text="Сохранить EP/GP">
+					<Button name="CEPGP_button_guild_dump" inherits="GameMenuButtonTemplate" text="Сохранить">
 						<Size>
 							<AbsDimension x="125" y="22" />
 						</Size>
@@ -160,7 +160,7 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_button_guild_export" inherits="GameMenuButtonTemplate" text="Экспорт EP/GP">
+					<Button name="CEPGP_button_guild_export" inherits="GameMenuButtonTemplate" text="Экспорт">
 						<Size>
 							<AbsDimension x="125" y="21" />
 						</Size>
@@ -174,7 +174,7 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_button_guild_import" inherits="GameMenuButtonTemplate" text="Импорт EP/GP">
+					<Button name="CEPGP_button_guild_import" inherits="GameMenuButtonTemplate" text="Импорт">
 						<Size>
 							<AbsDimension x="100" y="22" />
 						</Size>
@@ -214,7 +214,7 @@
 							</OnLeave>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_button_guild_filter" inherits="GameMenuButtonTemplate" text="Фильры">
+					<Button name="CEPGP_button_guild_filter" inherits="GameMenuButtonTemplate" text="Фильр">
 						<HitRectInsets>
 							<AbsInset left="0" right="0" top="0" bottom="0" />
 						</HitRectInsets>
@@ -230,7 +230,7 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_button_guild_restore" inherits="GameMenuButtonTemplate" text="Восстановить EP/GP">
+					<Button name="CEPGP_button_guild_restore" inherits="GameMenuButtonTemplate" text="Восстановить">
 						<Size>
 							<AbsDimension x="125" y="21" />
 						</Size>
@@ -244,7 +244,7 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_button_guild_traffic" inherits="GameMenuButtonTemplate" text="EPGP Трафик">
+					<Button name="CEPGP_button_guild_traffic" inherits="GameMenuButtonTemplate" text="История">
 						<Size>
 							<AbsDimension x="125" y="21" />
 						</Size>
@@ -300,7 +300,7 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_guild_EP" inherits="CEPGPHeaderButton" text="EP">
+					<Button name="CEPGP_guild_EP" inherits="CEPGPHeaderButton" text="ЕП">
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_guild_rank">
 								<Offset>
@@ -314,7 +314,7 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_guild_GP" inherits="CEPGPHeaderButton" text="GP">
+					<Button name="CEPGP_guild_GP" inherits="CEPGPHeaderButton" text="ГП">
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT"  relativeTo="CEPGP_guild_EP">
 								<Offset>
@@ -361,7 +361,7 @@
 							</Frame>
 						</ScrollChild>
 					</ScrollFrame>
-					<Button name="CEPGP_guild_add_EP" inherits="GameMenuButtonTemplate" text="Добавить EP гильдии">
+					<Button name="CEPGP_guild_add_EP" inherits="GameMenuButtonTemplate" text="Добавить ЕП">
 						<Size>
 							<AbsDimension x="100" y="21" />
 						</Size>
@@ -392,7 +392,7 @@
 							</OnLeave>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_guild_decay" inherits="GameMenuButtonTemplate" text="Понизьте/увеличить EPGP для гильдии">
+					<Button name="CEPGP_guild_decay" inherits="GameMenuButtonTemplate" text="Изменить">
 						<Size>
 							<AbsDimension x="120" y="21" />
 						</Size>
@@ -423,7 +423,7 @@
 							</OnShow>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_guild_decay_EP" inherits="GameMenuButtonTemplate" text="Понизьте/увеличить EP для гильдии">
+					<Button name="CEPGP_guild_decay_EP" inherits="GameMenuButtonTemplate" text="Изменить ЕП">
 						<Size>
 							<AbsDimension x="120" y="21" />
 						</Size>
@@ -456,7 +456,7 @@
 							</OnShow>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_guild_decay_GP" inherits="GameMenuButtonTemplate" text="Понизьте/увеличить GP для гильдии">
+					<Button name="CEPGP_guild_decay_GP" inherits="GameMenuButtonTemplate" text="Изменить ГП">
 						<Size>
 							<AbsDimension x="120" y="21" />
 						</Size>
@@ -490,7 +490,7 @@
 						</Scripts>
 					</Button>
 
-					<Button name="CEPGP_guild_reset" inherits="GameMenuButtonTemplate" text="Сбросить все EPGP для гильдии">
+					<Button name="CEPGP_guild_reset" inherits="GameMenuButtonTemplate" text="Сбросить все">
 						<Size>
 							<AbsDimension x="160" y="21" />
 						</Size>
@@ -524,7 +524,7 @@
 				</Frames>
 				<Layers>
 					<Layer level="OVERLAY">
-						<FontString name="CEPGP_guild_CEPGP_mode" inherits="GameFontNormal" text="Текущий вид: Гильдия">
+						<FontString name="CEPGP_guild_CEPGP_mode" inherits="GameFontNormal" text="Гильдия">
 							<Color r="1" g="1" b="1"/>
 							<Anchors>
 								<Anchor point="CENTER" relativePoint="TOP" />
@@ -539,7 +539,7 @@
 				</Size>
 				<Layers>
 					<Layer level="OVERLAY">
-						<FontString name="CEPGP_raid_CEPGP_mode" inherits="GameFontNormal" text="Текущий вид: Рейд">
+						<FontString name="CEPGP_raid_CEPGP_mode" inherits="GameFontNormal" text="Рейд">
 							<Color r="1" g="1" b="1"/>
 							<Anchors>
 								<Anchor point="CENTER" relativePoint="TOP" />
@@ -618,7 +618,7 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_raid_EP" inherits="CEPGPHeaderButton" text="EP">
+					<Button name="CEPGP_raid_EP" inherits="CEPGPHeaderButton" text="ЕП">
 						<Size>
 							<AbsDimension x="30" y="20" />
 						</Size>
@@ -635,7 +635,7 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_raid_GP" inherits="CEPGPHeaderButton" text="GP">
+					<Button name="CEPGP_raid_GP" inherits="CEPGPHeaderButton" text="ГП">
 						<Size>
 							<AbsDimension x="30" y="20" />
 						</Size>
@@ -669,7 +669,7 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_raid_add_EP" inherits="GameMenuButtonTemplate" text="Добавить Рейду EP">
+					<Button name="CEPGP_raid_add_EP" inherits="GameMenuButtonTemplate" text="Добавить ЕП">
 						<Size>
 							<AbsDimension x="100" y="21" />
 						</Size>
@@ -701,7 +701,7 @@
 				</Size>
 				<Layers>
 					<Layer level="OVERLAY">
-						<FontString name="CEPGP_loot_CEPGP_mode" inherits="GameFontNormal" text="Текущий вид: Распределение добычи">
+						<FontString name="CEPGP_loot_CEPGP_mode" inherits="GameFontNormal" text="Распределение добычи">
 							<Color r="1" g="1" b="1"/>
 							<Anchors>
 								<Anchor point="CENTER" relativePoint="TOP" />
@@ -805,7 +805,7 @@
 								</Anchor>
 							</Anchors>
 						</FontString>
-						<FontString name="CEPGP_distribute_GP_head" inherits="GameFontNormal" text="GP">
+						<FontString name="CEPGP_distribute_GP_head" inherits="GameFontNormal" text="ГП">
 							<Color r="1" g="1" b="1"/>
 							<Anchors>
 								<Anchor point="TOPRIGHT">
@@ -940,7 +940,7 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_distribute_raid_EP" inherits="CEPGPHeaderButton" text="EP">
+					<Button name="CEPGP_distribute_raid_EP" inherits="CEPGPHeaderButton" text="ЕП">
 						<Size>
 							<AbsDimension x="50" y="20" />
 						</Size>
@@ -957,7 +957,7 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_distribute_raid_GP" inherits="CEPGPHeaderButton" text="GP">
+					<Button name="CEPGP_distribute_raid_GP" inherits="CEPGPHeaderButton" text="ГП">
 						<Size>
 							<AbsDimension x="50" y="20" />
 						</Size>
@@ -1027,7 +1027,7 @@
 							</Frame>
 						</ScrollChild>
 					</ScrollFrame>
-					<Button name="$parent_roll_award" inherits="GameMenuButtonTemplate" text="Отдать по наивысшему ролу">
+					<Button name="$parent_roll_award" inherits="GameMenuButtonTemplate" text="Отдать по ролу">
 						<Size>
 							<AbsDimension x="150" y="25" />
 						</Size>
@@ -1085,7 +1085,7 @@
 						</Anchors>
 						<Layers>
 							<Layer level="OVERLAY">
-								<FontString name="$parent_text" inherits="GameFontNormal" text="Анонсировать участников">
+								<FontString name="$parent_text" inherits="GameFontNormal" text="Анонс запросов">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="CENTER" />
@@ -3302,7 +3302,7 @@
 				</Texture>
 			</Layer>
 			<Layer level="OVERLAY">
-				<FontString name="CEPGP_traffic_header" inherits="GameFontNormalSmall" text="Трафик EPGP">
+				<FontString name="CEPGP_traffic_header" inherits="GameFontNormalSmall" text="История">
 					<Anchors>
 						<Anchor point="TOP">
 							<Offset>
@@ -3320,7 +3320,7 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="CEPGP_traffic_desc" inherits="GameFontNormalSmall" text="Запись трафика EPGP в вашей гильдии.">
+				<FontString name="CEPGP_traffic_desc" inherits="GameFontNormalSmall" text="История трафика ЕП/ГП">
 					<Anchors>
 						<Anchor point="TOP" relativePoint="TOP">
 							<Offset>
@@ -3370,7 +3370,7 @@
 					</OnTextChanged>
 				</Scripts>
 			</EditBox>
-			<Button name="CEPGP_traffic_clear_button" inherits="GameMenuButtonTemplate" text="Очистка трафика">
+			<Button name="CEPGP_traffic_clear_button" inherits="GameMenuButtonTemplate" text="Очистка">
 				<Size>
 					<AbsDimension x="150" y="21" />
 				</Size>
@@ -3400,7 +3400,7 @@
 					</OnHide>
 				</Scripts>
 			</Button>
-			<Button name="CEPGP_traffic_share" inherits="GameMenuButtonTemplate" text="Поделиться трафиком">
+			<Button name="CEPGP_traffic_share" inherits="GameMenuButtonTemplate" text="Поделиться">
 				<Size>
 					<AbsDimension x="125" y="21" />
 				</Size>
@@ -5180,7 +5180,7 @@
 		</KeyValues>
 		<Layers>
 			<Layer level="OVERLAY">
-				<FontString name="CEPGP_rank_exclude_header" inherits="GameFontNormal" text="Исключения из рейтинга">
+				<FontString name="CEPGP_rank_exclude_header" inherits="GameFontNormal" text="Исключения">
 					<Anchors>
 						<Anchor point="TOP">
 							<Offset>

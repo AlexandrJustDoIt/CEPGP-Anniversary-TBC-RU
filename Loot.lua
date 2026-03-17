@@ -159,28 +159,28 @@ function CEPGP_announce(link, x, slotNum, quantity)
 		if rank > 0 then
 			if quantity > 1 then
 				if CEPGP.Loot.RaidWarning then
-					SendChatMessage("НАЧАТ АУКЦИОН: x" .. quantity .. " " .. link, "RAID_WARNING", CEPGP_Info.Language);
+					SendChatMessage("РАЗЫГРЫВАЕТСЯ ПРЕДМЕТ: x" .. quantity .. " " .. link, "RAID_WARNING", CEPGP_Info.Language);
 				else
-					SendChatMessage("НАЧАТ АУКЦИОН: x" .. quantity .. " " .. link, "RAID", CEPGP_Info.Language);
+					SendChatMessage("РАЗЫГРЫВАЕТСЯ ПРЕДМЕТ: x" .. quantity .. " " .. link, "RAID", CEPGP_Info.Language);
 				end
 			else
 				if CEPGP.Loot.RaidWarning then
-					SendChatMessage("НАЧАТ АУКЦИОН: " .. link, "RAID_WARNING", CEPGP_Info.Language);
+					SendChatMessage("РАЗЫГРЫВАЕТСЯ ПРЕДМЕТ: " .. link, "RAID_WARNING", CEPGP_Info.Language);
 				else
-					SendChatMessage("НАЧАТ АУКЦИОН: " .. link, "RAID", CEPGP_Info.Language);
+					SendChatMessage("РАЗЫГРЫВАЕТСЯ ПРЕДМЕТ: " .. link, "RAID", CEPGP_Info.Language);
 				end
 			end
 		else
 			if quantity > 1 then
-				SendChatMessage("НАЧАТ АУКЦИОН: x" .. quantity .. " " .. link, "RAID", CEPGP_Info.Language);
+				SendChatMessage("РАЗЫГРЫВАЕТСЯ ПРЕДМЕТ: x" .. quantity .. " " .. link, "RAID", CEPGP_Info.Language);
 			else
-				SendChatMessage("НАЧАТ АУКЦИОН: " .. link, "RAID", CEPGP_Info.Language);
+				SendChatMessage("РАЗЫГРЫВАЕТСЯ ПРЕДМЕТ: " .. link, "RAID", CEPGP_Info.Language);
 			end
 		end
 		if quantity > 1 then
-			SendChatMessage("GP Цена: " .. gp .. " (~" .. math.floor(gp/quantity) .. "GP per unit)", "RAID", CEPGP_Info.Language);
+			SendChatMessage("ГП Цена: " .. gp .. " (~" .. math.floor(gp/quantity) .. "ГП за еденицу)", "RAID", CEPGP_Info.Language);
 		else
-			SendChatMessage("GP Цена: " .. gp, "RAID", CEPGP_Info.Language);
+			SendChatMessage("ГП Цена: " .. gp, "RAID", CEPGP_Info.Language);
 		end
 		if CEPGP.Loot.GUI.Timer > 0 then
 			SendChatMessage("Время на решение: " .. CEPGP.Loot.GUI.Timer .. (CEPGP.Loot.GUI.Timer > 1 and " seconds" or " second"), "RAID", CEPGP_Info.Language);
