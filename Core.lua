@@ -460,6 +460,7 @@ function CEPGP_initMinimapIcon()
 				elseif button == "RightButton" then
 					Settings.OpenToCategory(CEPGP_Info.category.ID);
 				elseif button == "MiddleButton" then
+					CEPGP_version:SetAttribute("offline", false);
 					CEPGP_Info.Version.List = {};
 					CEPGP_Info.Version.ListSearch = "GUILD";
 					for i = 1, GetNumGuildMembers() do
