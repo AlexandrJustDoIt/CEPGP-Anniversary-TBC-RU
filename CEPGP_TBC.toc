@@ -1,10 +1,10 @@
 ## Interface: 20505
-## Title: Classic EPGP - Hotfix
-## Author: Alumian, GrumpyPlayers (also known as <SG>Soul)
-## Notes: Classic EPGP handles your guild's EPGP and master loot distribution. Usage: /CEPGP or /cep for options
+## Title: CEPGP-Anniversary-TBC-RU
+## Author: Alumian, GrumpyPlayers (also known as <SG>Soul), AlexandrJustDoIt
+## Notes: CEPGP-Anniversary-TBC-RU Управление распределением добычи вашей гильдии и пуго рейдах. Вызов: /CEPGP or /cep for options
 ## OptionalDependencies: AceAddon-3.0, AceComm-3.0, CallbackHandler-1.0, LibDataBroker-1.1, LibDBIcon-1.0, LibStub
 ## SavedVariables: CEPGP
-## Version: 2.2.5
+## Version: 2.2.6
 
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua

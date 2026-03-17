@@ -390,7 +390,7 @@ function SlashCmdList.CEPGP(msg, editbox)
 	msg = string.lower(msg);
 	
 	if msg == "" then
-		CEPGP_print("Classic EPGP Usage");
+		CEPGP_print("CEPGP Годовщина TBC RU Usage");
 		CEPGP_print("|cFF80FF80show|r - |cFFFF8080Manually shows the CEPGP window|r");
 		CEPGP_print("|cFF80FF80version|r - |cFFFF8080Checks the version of the addon everyone in your raid is running|r");
 		CEPGP_print("|cFF80FF80options or config|r - |cFFFF8080Opens the configuration menu for CEPGP|r");
@@ -414,13 +414,13 @@ function SlashCmdList.CEPGP(msg, editbox)
 			name = Ambiguate(name, "mail");
 			if online then
 				CEPGP_Info.Version.List[name] = CEPGP_Info.Version.List[name] or {
-					[1] = "Addon not enabled",
+					[1] = "Аддон не включен",
 					[2] = class,
 					[3] = classFileName,
 				};
 			else
 				CEPGP_Info.Version.List[name] = {
-					[1] = "Offline",
+					[1] = "Не в сети",
 					[2] = class,
 					[3] = classFileName
 				};
@@ -461,6 +461,7 @@ function CEPGP_initMinimapIcon()
 					Settings.OpenToCategory(CEPGP_Info.category.ID);
 				elseif button == "MiddleButton" then
 					CEPGP_version:SetAttribute("offline", false);
+					
 					CEPGP_Info.Version.List = {};
 					CEPGP_Info.Version.ListSearch = "GUILD";
 					for i = 1, GetNumGuildMembers() do
@@ -468,13 +469,13 @@ function CEPGP_initMinimapIcon()
 						name = Ambiguate(name, "mail");
 						if online then
 							CEPGP_Info.Version.List[name] = CEPGP_Info.Version.List[name] or {
-								[1] = "Addon not enabled",
+								[1] = "Аддон не включен",
 								[2] = class,
 								[3] = classFileName,
 							};
 						else
 							CEPGP_Info.Version.List[name] = {
-								[1] = "Offline",
+								[1] = "Не в сети",
 								[2] = class,
 								[3] = classFileName
 							};
@@ -488,8 +489,8 @@ function CEPGP_initMinimapIcon()
 				end
 			end,
 			OnEnter = function(self)
-				local inRaidText = "\nCEPGP is " .. (CEPGP_Info.Active[1] and "|cFF00FF00active|r|c00FFC100" or "|cFFFF0000inactive|r|c00FFC100") .. " for this raid\n";
-				local text = "|c00FFC100TBC EPGP\nVersion: " .. CEPGP_Info.Version.Number .. " " .. CEPGP_Info.Version.Build .. "|r\n" .. ((IsInRaid() and CEPGP_isML() == 0) and inRaidText or "") .. "\nЛевый клик мыши: Показать главное окно CEPGP\nСредний клик мыши: Просмотр версии аддона в гильдии/рейде CEPGP\nПравый клик мыши: открытие конфигурации CEPGP";
+				local inRaidText = "\nEPGP Годовщина TBC RU is " .. (CEPGP_Info.Active[1] and "|cFF00FF00active|r|c00FFC100" or "|cFFFF0000inactive|r|c00FFC100") .. " для этого рейда\n";
+				local text = "|c00FFC100EPGP Годовщина TBC RU\nВерсия: " .. CEPGP_Info.Version.Number .. " " .. CEPGP_Info.Version.Build .. "|r\n" .. ((IsInRaid() and CEPGP_isML() == 0) and inRaidText or "") .. "\nЛевый клик мыши: Показать главное окно CEPGP\nСредний клик мыши: Просмотр версии аддона в гильдии/рейде CEPGP\nПравый клик мыши: открытие конфигурации CEPGP";
 				GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
 				GameTooltip:SetText(text);
 			end,

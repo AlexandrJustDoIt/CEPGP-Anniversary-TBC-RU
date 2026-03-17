@@ -455,7 +455,7 @@ function CEPGP_UpdateVersionScrollBar()
 	end
 		
 	for name, data in pairs(CEPGP_Info.Version.List) do
-		if data[1] ~= "Offline" or (showOffline and data[1] == "Offline") then
+		if data[1] ~= "Не в сети" or (showOffline and data[1] == "Не в сети") then
 			if search == "RAID" and IsRaidMember(name) or search == "GUILD" and IsGuildMember(name) then	--Nested these statements for efficiency sake
 				local entry = {
 					[1] = name,

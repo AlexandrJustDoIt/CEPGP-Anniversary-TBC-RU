@@ -70,7 +70,7 @@ function CEPGP_initialise()
 				end
 			end
 		end
-		DEFAULT_CHAT_FRAME:AddMessage("|c00FFC100Classic EPGP Version: " .. CEPGP_Info.Version.Number .. " " .. CEPGP_Info.Version.Build .. " Loaded|r");
+		DEFAULT_CHAT_FRAME:AddMessage("|c00FFC100CEPGP Годовщина TBC RU Версия: " .. CEPGP_Info.Version.Number .. " " .. CEPGP_Info.Version.Build .. " Загружена|r");
 		if CEPGP.ChangelogVersion ~= CEPGP_Info.Version.Number then
 			CEPGP_print("A new version has been installed.");
 			CEPGP.ChangelogVersion = CEPGP_Info.Version.Number;
@@ -395,7 +395,7 @@ end
 function CEPGP_initInterfaceOptions()
 	local panel = {};
 	panel.main = _G["CEPGP_interface_options"];
-	panel.main.name = "TBC EPGP";
+	panel.main.name = "EPGP Годовщина TBC";
     local categoryMain, _ = Settings.RegisterCanvasLayoutCategory(panel.main, panel.main.name);
     Settings.RegisterAddOnCategory(categoryMain);
 	CEPGP_Info.category = categoryMain;
@@ -1186,7 +1186,7 @@ function CEPGP_rosterUpdate(event)
 								CEPGP_print(name .. " is offline. Traffic sharing has ended.");
 								CEPGP_Info.Traffic.Sharing = false;
 								CEPGP_Info.Traffic.Source = "";
-								CEPGP_traffic_share_status:SetText(name .. " is Offline");
+								CEPGP_traffic_share_status:SetText(name .. " Не в сети");
 								CEPGP_traffic_share:Enable();
 								CEPGP_UpdateTrafficScrollBar();
 								CEPGP_Info.Traffic.ImportEntries = {};
@@ -1195,9 +1195,9 @@ function CEPGP_rosterUpdate(event)
 					end
 					CEPGP_Info.Version.List[name] = CEPGP_Info.Version.List[name] or {};
 					if online then
-						CEPGP_Info.Version.List[name][1] = CEPGP_Info.Version.List[name][1] or "Addon not enabled";
+						CEPGP_Info.Version.List[name][1] = CEPGP_Info.Version.List[name][1] or "Аддон не включен";
 					else
-						CEPGP_Info.Version.List[name][1] = "Offline";
+						CEPGP_Info.Version.List[name][1] = "Не в сети";
 					end
 				end
 
