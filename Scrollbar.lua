@@ -1,3 +1,40 @@
+local function normalizeName(name, noRealm)
+	if not name or type(name) ~= "string" then
+        return nil
+    end
+
+    -- Trim whitespace
+    local trimmed = name:match("^%s*(.-)%s*$")
+    if trimmed == "" then
+        return nil
+    end
+
+    -- Handle "Unknown" edge case
+    if trimmed:lower() == "unknown" then
+        return "Unknown"
+    end
+
+    -- Split name from realm
+    local playerName, playerRealm = trimmed:match("^(.+)%-(.+)$")
+    local currentRealm = GetNormalizedRealmName()
+
+    -- If no realm provided, assume current realm
+    if not playerRealm then
+        playerRealm = currentRealm
+        playerName = trimmed
+    end
+
+    -- For communication (whisper/mail), strip realm only if same exact realm
+    if noRealm then
+        if playerRealm == currentRealm then
+            return playerName
+        else
+            return playerName .. "-" .. playerRealm
+        end
+    end
+
+    return playerName .. "-" .. playerRealm
+end
 function CEPGP_UpdateLootScrollBar(PRsort, sort)
 	local tempTable = {};
 	local count = 1;
@@ -287,7 +324,7 @@ function CEPGP_UpdateGuildScrollBar()
 					if i > 1 then
 						_G["GuildButton" .. i]:SetPoint("TOPLEFT", _G["GuildButton" .. i-1], "BOTTOMLEFT", 0, -2);
 					else
-						_G["GuildButton" .. i]:SetPoint("TOPLEFT", _G["CEPGP_guild_scrollframe_container"], "TOPLEFT", 0, -10);
+						_G["GuildButton" .. i]:SetPoint("TOPLEFT", _G["CEPGP_guild_scrollframe_container"], "TOPLEFT", 0, -1);
 					end
 				else
 					frame = _G["GuildButton" .. i];
@@ -384,7 +421,7 @@ function CEPGP_UpdateRaidScrollBar()
 			if i > 1 then
 				_G["RaidButton" .. i]:SetPoint("TOPLEFT", _G["RaidButton" .. i-1], "BOTTOMLEFT", 0, -2);
 			else
-				_G["RaidButton" .. i]:SetPoint("TOPLEFT", _G["CEPGP_raid_scrollframe_container"], "TOPLEFT", 0, -10);
+				_G["RaidButton" .. i]:SetPoint("TOPLEFT", _G["CEPGP_raid_scrollframe_container"], "TOPLEFT", 0, -1);
 			end
 		else
 			frame = _G["RaidButton" .. i];
@@ -651,7 +688,7 @@ function CEPGP_UpdateTrafficScrollBar()
 			if i ~= #results then
 				_G["TrafficButton" .. i]:SetPoint("TOPLEFT", _G["TrafficButton" .. i+1], "BOTTOMLEFT", 0, -2);
 			else
-				_G["TrafficButton" .. i]:SetPoint("TOPLEFT", _G["CEPGP_traffic_scrollframe_container"], "TOPLEFT", 7.5, -10);
+				_G["TrafficButton" .. i]:SetPoint("TOPLEFT", _G["CEPGP_traffic_scrollframe_container"], "TOPLEFT", 8.5, -10);
 			end
 			frame:SetAttribute("id", results[i][12]);
 			local _, class = CEPGP_getPlayerClass(results[i][1]);

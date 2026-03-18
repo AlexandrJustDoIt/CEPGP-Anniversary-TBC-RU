@@ -395,7 +395,7 @@ end
 function CEPGP_initInterfaceOptions()
 	local panel = {};
 	panel.main = _G["CEPGP_interface_options"];
-	panel.main.name = "EPGP Годовщина TBC";
+	panel.main.name = "ЕП/ГП Годовщина TBC";
     local categoryMain, _ = Settings.RegisterCanvasLayoutCategory(panel.main, panel.main.name);
     Settings.RegisterAddOnCategory(categoryMain);
 	CEPGP_Info.category = categoryMain;
@@ -436,7 +436,7 @@ function CEPGP_initInterfaceOptions()
     local categoryPlugins, _ = Settings.RegisterCanvasLayoutSubcategory(categoryMain, panel.plugins, panel.plugins.name);
     Settings.RegisterAddOnCategory(categoryPlugins);
 	
-	_G["CEPGP_interface_options_version"]:SetText("EPGP Version " .. CEPGP_Info.Version.Number .. " " .. CEPGP_Info.Version.Build);
+	_G["CEPGP_interface_options_version"]:SetText("Версия " .. CEPGP_Info.Version.Number .. " " .. CEPGP_Info.Version.Build);
 	
 	local varMap = {
 		["Alt"] = 				"Alt Management",

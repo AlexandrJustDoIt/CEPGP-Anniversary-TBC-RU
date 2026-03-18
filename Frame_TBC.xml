@@ -262,7 +262,7 @@
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_button_guild_traffic">
 								<Offset>
-									<AbsDimension x="0" y="-7" />
+									<AbsDimension x="5" y="-7" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -276,7 +276,7 @@
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="BOTTOMRIGHT" relativeTo="CEPGP_button_guild_traffic">
 								<Offset>
-									<AbsDimension x="41" y="-7" />
+									<AbsDimension x="32" y="-7" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -290,7 +290,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_guild_class">
 								<Offset>
-									<AbsDimension x="78" y="0" />
+									<AbsDimension x="79" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -304,7 +304,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_guild_rank">
 								<Offset>
-									<AbsDimension x="81" y="0" />
+									<AbsDimension x="80" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -574,7 +574,7 @@
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
 								<Offset>
-									<AbsDimension x="0" y="-50" />
+									<AbsDimension x="5" y="-50" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -591,7 +591,7 @@
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="BOTTOMRIGHT" relativeTo="CEPGP_button_guild_traffic">
 								<Offset>
-									<AbsDimension x="41" y="-7" />
+									<AbsDimension x="32" y="-7" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -608,7 +608,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_raid_class">
 								<Offset>
-									<AbsDimension x="78" y="0" />
+									<AbsDimension x="79" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -625,7 +625,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_raid_rank">
 								<Offset>
-									<AbsDimension x="81" y="0" />
+									<AbsDimension x="82" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -942,7 +942,7 @@
 					</Button>
 					<Button name="CEPGP_distribute_raid_EP" inherits="CEPGPHeaderButton" text="ЕП">
 						<Size>
-							<AbsDimension x="50" y="20" />
+							<AbsDimension x="55" y="20" />
 						</Size>
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="LEFT" relativeTo="CEPGP_distribute_raid_response">
@@ -1450,6 +1450,7 @@
 						CEPGP_addAddonMsg("version-check", "GUILD");
 						for i = 1, GetNumGuildMembers() do
 							local name, _, _, _, class, _, _, _, online, _, classFileName = GetGuildRosterInfo(i);
+							name = CEPGP_NormalizeName(name); --NEW
 							name = Ambiguate(name, "mail");
 							if online then
 								CEPGP_Info.Version.List[name] = CEPGP_Info.Version.List[name] or {
@@ -3302,7 +3303,7 @@
 				</Texture>
 			</Layer>
 			<Layer level="OVERLAY">
-				<FontString name="CEPGP_traffic_header" inherits="GameFontNormalSmall" text="История">
+				<FontString name="CEPGP_traffic_header" inherits="GameFontNormal" text="История">
 					<Anchors>
 						<Anchor point="TOP">
 							<Offset>
@@ -3311,7 +3312,7 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="CEPGP_traffic_search_text" inherits="GameFontNormalSmall" text="Поиск: ">
+				<FontString name="CEPGP_traffic_search_text" inherits="GameFontNormal" text="Поиск: ">
 					<Anchors>
 						<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
 							<Offset>
@@ -3320,23 +3321,106 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="CEPGP_traffic_desc" inherits="GameFontNormalSmall" text="История трафика ЕП/ГП">
-					<Anchors>
-						<Anchor point="TOP" relativePoint="TOP">
+				<FontString name="CEPGP_traffic_name" inherits="GameFontNormal" text="Имя">
+				<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="CEPGP_traffic_search_text" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="0" y="-30"/>
+								<AbsDimension x="1" y="-32"/>
 							</Offset>
 						</Anchor>
-					</Anchors>
+				</Anchors>
 				</FontString>
-				<FontString name="CEPGP_traffic_name" inherits="GameFontNormalSmall" text="Игрок" />
-				<FontString name="CEPGP_traffic_issuer" inherits="GameFontNormalSmall" text="Выдан" />
-				<FontString name="CEPGP_traffic_action" inherits="GameFontNormalSmall" text="Действие" />
-				<FontString name="CEPGP_traffic_epb" inherits="GameFontNormalSmall" text="  EP До" />
-				<FontString name="CEPGP_traffic_epa" inherits="GameFontNormalSmall" text=" EP После" />
-				<FontString name="CEPGP_traffic_gpb" inherits="GameFontNormalSmall" text="  GP До" />
-				<FontString name="CEPGP_traffic_gpa" inherits="GameFontNormalSmall" text=" GP После" />
-				<FontString name="$parent_display" inherits="GameFontNormalSmall">
+				<FontString name="CEPGP_traffic_issuer" inherits="GameFontNormal" text="Выдан" >
+				<Anchors>
+						<Anchor point="LEFT" relativeTo="CEPGP_traffic_name" relativePoint="LEFT">
+							<Offset>
+								<AbsDimension x="140" y="0"/>
+							</Offset>
+						</Anchor>
+				</Anchors>
+				</FontString>
+				<FontString name="CEPGP_traffic_action" inherits="GameFontNormal" text="Действие" >
+				<Anchors>
+						<Anchor point="LEFT" relativeTo="CEPGP_traffic_issuer" relativePoint="LEFT">
+							<Offset>
+								<AbsDimension x="440" y="0"/>
+							</Offset>
+						</Anchor>
+				</Anchors>
+				</FontString>
+				<FontString name="CEPGP_traffic_epb" inherits="GameFontNormal" text="ЕП" >
+				<Anchors>
+						<Anchor point="LEFT" relativeTo="CEPGP_traffic_action" relativePoint="LEFT">
+							<Offset>
+								<AbsDimension x="150" y="0"/>
+							</Offset>
+						</Anchor>
+				</Anchors>
+				</FontString>
+				<FontString name="CEPGP_traffic_epb_top" inherits="GameFontNormal" text="До" >
+				<Anchors>
+						<Anchor point="TOP" relativeTo="CEPGP_traffic_epb" relativePoint="TOP">
+							<Offset>
+								<AbsDimension x="0" y="-12"/>
+							</Offset>
+						</Anchor>
+				</Anchors>
+				</FontString>
+				<FontString name="CEPGP_traffic_epa" inherits="GameFontNormal" text="ЕП" >
+				<Anchors>
+						<Anchor point="LEFT" relativeTo="CEPGP_traffic_epb" relativePoint="LEFT">
+							<Offset>
+								<AbsDimension x="60" y="0"/>
+							</Offset>
+						</Anchor>
+				</Anchors>
+				</FontString>
+				<FontString name="CEPGP_traffic_epa_top" inherits="GameFontNormal" text="После" >
+				<Anchors>
+						<Anchor point="TOP" relativeTo="CEPGP_traffic_epa" relativePoint="TOP">
+							<Offset>
+								<AbsDimension x="0" y="-12"/>
+							</Offset>
+						</Anchor>
+				</Anchors>
+				</FontString>
+				<FontString name="CEPGP_traffic_gpb" inherits="GameFontNormal" text="ГП" >
+				<Anchors>
+						<Anchor point="LEFT" relativeTo="CEPGP_traffic_epa" relativePoint="LEFT">
+							<Offset>
+								<AbsDimension x="60" y="0"/>
+							</Offset>
+						</Anchor>
+				</Anchors>
+				</FontString>
+				<FontString name="CEPGP_traffic_gpb_top" inherits="GameFontNormal" text="До" >
+				<Anchors>
+						<Anchor point="TOP" relativeTo="CEPGP_traffic_gpb" relativePoint="TOP">
+							<Offset>
+								<AbsDimension x="0" y="-12"/>
+							</Offset>
+						</Anchor>
+				</Anchors>
+				</FontString>
+				<FontString name="CEPGP_traffic_gpa" inherits="GameFontNormal" text="ГП" >
+				<Anchors>
+						<Anchor point="LEFT" relativeTo="CEPGP_traffic_gpb" relativePoint="LEFT">
+							<Offset>
+								<AbsDimension x="60" y="0"/>
+							</Offset>
+						</Anchor>
+				</Anchors>
+				</FontString>
+				<FontString name="CEPGP_traffic_gpa_top" inherits="GameFontNormal" text="После" >
+				<Anchors>
+						<Anchor point="TOP" relativeTo="CEPGP_traffic_gpa" relativePoint="TOP">
+							<Offset>
+								<AbsDimension x="0" y="-12"/>
+							</Offset>
+						</Anchor>
+				</Anchors>
+				</FontString>
+				<FontString name="$parent_display" inherits="GameFontNormal">
 					<Anchors>
 						<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT">
 							<AbsDimension x="0" y="-5" />
@@ -3370,7 +3454,7 @@
 					</OnTextChanged>
 				</Scripts>
 			</EditBox>
-			<Button name="CEPGP_traffic_clear_button" inherits="GameMenuButtonTemplate" text="Очистка">
+			<Button name="CEPGP_traffic_clear_button" inherits="GameMenuButtonTemplate" text="Очистить">
 				<Size>
 					<AbsDimension x="150" y="21" />
 				</Size>
@@ -3657,12 +3741,12 @@
 			</Button>
 			<ScrollFrame name="trafficScrollFrame" inherits="UIPanelScrollFrameTemplate">
 				<Size>
-					<AbsDimension x="1075" y="320"/>
+					<AbsDimension x="1075" y="370"/>
 				</Size>
 				<Anchors>
-					<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+					<Anchor point="TOPLEFT"  relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="7.5" y="-105"/>
+							<AbsDimension x="7.5" y="-60"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -3680,12 +3764,7 @@
 				self:RegisterForDrag("LeftButton");
 				self:EnableKeyboard(true);
 				CEPGP_traffic_name:SetPoint("BOTTOMLEFT", trafficScrollFrame, "TOPLEFT", 7.5, 5);
-				CEPGP_traffic_issuer:SetPoint("LEFT", CEPGP_traffic_name, "LEFT", 200, 0);
-				CEPGP_traffic_action:SetPoint("LEFT", CEPGP_traffic_issuer, "LEFT", 465, 0);
-				CEPGP_traffic_epb:SetPoint("LEFT", CEPGP_traffic_action, "LEFT", 50, 0);
-				CEPGP_traffic_epa:SetPoint("LEFT", CEPGP_traffic_epb, "LEFT", 60, 0);
-				CEPGP_traffic_gpb:SetPoint("LEFT", CEPGP_traffic_epa, "LEFT", 50, 0);
-				CEPGP_traffic_gpa:SetPoint("LEFT", CEPGP_traffic_gpb, "LEFT", 60, 0);
+
 			</OnLoad>
 			<OnDragStart>
 				self:StartMoving();
@@ -4839,7 +4918,7 @@
 		</Frames>
 		<Scripts>
 			<OnLoad inherit="prepend">
-				CEPGP_confirmation_desc:SetText("Хотите использовать CEPGP для этого рейда?");
+				CEPGP_confirmation_desc:SetText("Хотите использовать ЕП/ГП для этого рейда?");
 			</OnLoad>
 			<OnShow>
 				CEPGP_localise(self);
@@ -5189,7 +5268,7 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="CEPGP_rank_exclude_desc" inherits="GameFontNormal" text="Исключить ранги из изменений EPGP">
+				<FontString name="CEPGP_rank_exclude_desc" inherits="GameFontNormal" text="Исключить ранги из изменений очков ЕП/ГП">
 					<Anchors>
 						<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="CEPGP_rank_exclude_header">
 							<Offset>
@@ -7498,7 +7577,7 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_interface_options_exclusions" inherits="GameMenuButtonTemplate" text="Исключения из EP/GP">
+					<Button name="CEPGP_interface_options_exclusions" inherits="GameMenuButtonTemplate" text="Исключения ранга">
 						<Size>
 							<AbsDimension x="125" y="21" />
 						</Size>
@@ -7512,7 +7591,7 @@
 							</OnClick>
 							<OnEnter>
 								GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
-								GameTooltip:SetText("Исключить определенные ранги из изменений в программе EPGP.");
+								GameTooltip:SetText("Исключить определенные ранги из изменений в программе ЕП/ГП.");
 							</OnEnter>
 							<OnLeave>
 								GameTooltip:Hide();
@@ -7533,7 +7612,7 @@
 							</OnClick>
 							<OnEnter>
 								GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
-								GameTooltip:SetText("Импортируйте конфигурацию CEPGP от участника гильдии, заменив свою собственную.");
+								GameTooltip:SetText("Импортируйте конфигурацию от участника гильдии, заменив свою собственную.");
 							</OnEnter>
 							<OnLeave>
 								GameTooltip:Hide();
@@ -7583,7 +7662,7 @@
 											</OnClick>
 											<OnEnter>
 												GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
-												GameTooltip:SetText("Отправляет вашу конфигурацию CEPGP членам гильдии, у которых включена опция «Разрешить рангу управлять конфигурацией дополнений».");
+												GameTooltip:SetText("Отправляет вашу конфигурацию членам гильдии, у которых включена опция «Разрешить рангу управлять конфигурацией дополнений».");
 											</OnEnter>
 											<OnLeave>
 												GameTooltip:Hide();
@@ -7647,7 +7726,7 @@
 											</OnClick>
 											<OnEnter>
 												GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
-												GameTooltip:SetText("При включении этой функции игроки определенных рангов гильдии могут управлять вашей конфигурацией CEPGP.");
+												GameTooltip:SetText("При включении этой функции игроки определенных рангов гильдии могут управлять вашей конфигурацией.");
 											</OnEnter>
 											<OnLeave>
 												GameTooltip:Hide();
@@ -7749,7 +7828,7 @@
 										</Anchors>
 										<Layers>
 											<Layer level="OVERLAY">
-												<FontString name="$parent_text" inherits="CEPGPOptionString" text="Изменение EP and GP независимо друг от друга">
+												<FontString name="$parent_text" inherits="CEPGPOptionString" text="Изменение ЕП и ГП независимо друг от друга">
 													<Anchors>
 														<Anchor point="LEFT" relativePoint="RIGHT" />
 													</Anchors>
@@ -7937,7 +8016,7 @@
 				</Anchors>
 				<Layers>
 					<Layer level="OVERLAY">
-						<FontString name="CEPGP_EP_options_header" inherits="GameFontNormalLarge" text="Управление количеством EP за босса">
+						<FontString name="CEPGP_EP_options_header" inherits="GameFontNormalLarge" text="Управление количеством ЕП за босса">
 							<Anchors>
 								<Anchor point="TOP" />
 							</Anchors>
@@ -7952,7 +8031,7 @@
 								</Anchor>
 							</Anchors>
 						</FontString>
-						<FontString name="CEPGP_EP_options_EP_header" inherits="GameFontNormal" text="EP">
+						<FontString name="CEPGP_EP_options_EP_header" inherits="GameFontNormal" text="ЕП">
 							<Color r="1" g="1" b="1"/>
 							<Anchors>
 								<Anchor point="RIGHT" relativePoint="LEFT" relativeTo="CEPGP_EP_options_autoaward_header">
@@ -11780,7 +11859,7 @@
 											</OnLoad>
 											<OnEnter>
 												GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
-												GameTooltip:SetText("Устанавливает начальный уровень GP для всех игроков и минимальный уровень GP, которого игроки могут достичь.\nПримечание: это изменение вступит в силу только после изменения уровня GP игрока.");
+												GameTooltip:SetText("Устанавливает начальный уровень GP для всех игроков и минимальный уровень ГП, которого игроки могут достичь.\nПримечание: это изменение вступит в силу только после изменения уровня ГП игрока.");
 											</OnEnter>
 											<OnLeave>
 												GameTooltip:Hide();
@@ -11849,7 +11928,7 @@
 										</Anchors>
 										<Layers>
 											<Layer level="OVERLAY">
-												<FontString name="$parent_text" inherits="CEPGPOptionStringSmall" text="Значения GP во всплывающих подсказках" />
+												<FontString name="$parent_text" inherits="CEPGPOptionStringSmall" text="Значения ГП во всплывающих подсказках" />
 											</Layer>
 										</Layers>
 										<Scripts>
@@ -11973,7 +12052,7 @@
 												</Anchors>
 												<Layers>
 													<Layer level="OVERLAY">	
-														<FontString name="$parent_label" inherits="CEPGPOptionStringSmall" text="Включить На замене EP" />
+														<FontString name="$parent_label" inherits="CEPGPOptionStringSmall" text="Включить На замене ЕП" />
 													</Layer>
 												</Layers>
 												<Scripts>
@@ -11985,7 +12064,7 @@
 													</OnClick>
 													<OnEnter>
 														GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
-														GameTooltip:SetText("Начислять процент от автоматически получаемых очков EP (например, за убийство боссов) игрокам из списка ожидания.");
+														GameTooltip:SetText("Начислять процент от автоматически получаемых очков ЕП (например, за убийство боссов) игрокам из списка ожидания.");
 													</OnEnter>
 													<OnLeave>
 														GameTooltip:Hide();
@@ -12001,7 +12080,7 @@
 												</Anchors>
 												<Layers>
 													<Layer level="OVERLAY">	
-														<FontString name="$parent_label" inherits="GameFontNormalSmall" text="На замене EP Процент">
+														<FontString name="$parent_label" inherits="GameFontNormalSmall" text="На замене ЕП Процент">
 															<Color r="1" g="1" b="1" />
 															<Anchors>
 																<Anchor point="RIGHT" relativePoint="LEFT" x="-10" />
@@ -12091,7 +12170,7 @@
 												</Anchors>
 												<Layers>
 													<Layer level="OVERLAY">	
-														<FontString name="$parent_label" inherits="CEPGPOptionStringSmall" text="Присудите награду Standby EP офлайн-плеерам." />
+														<FontString name="$parent_label" inherits="CEPGPOptionStringSmall" text="Присудите награду ЕП офлайн-игрокам." />
 													</Layer>
 												</Layers>
 												<Scripts>
@@ -12107,7 +12186,7 @@
 													</OnClick>
 													<OnEnter>
 														GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
-														GameTooltip:SetText("Начислите резервные EP игрокам, находящимся в режиме ожидания и не подключенным к сети.");
+														GameTooltip:SetText("Начислите резервные ЕП игрокам, находящимся в режиме ожидания и не подключенным к сети.");
 													</OnEnter>
 													<OnLeave>
 														GameTooltip:Hide();
@@ -12155,7 +12234,7 @@
 												</Anchors>
 												<Layers>
 													<Layer level="OVERLAY">	
-														<FontString name="$parent_label" inherits="GameFontNormalSmall" text="На замену EP команда в личку">
+														<FontString name="$parent_label" inherits="GameFontNormalSmall" text="На замену ЕП команда в личку">
 															<Color r="1" g="1" b="1" />
 															<Anchors>
 																<Anchor point="RIGHT" relativePoint="LEFT" x="-10" />
@@ -12185,7 +12264,7 @@
 															self:SetText(CEPGP.Standby.Keyword);
 														elseif CEPGP.Standby.Keyword ~= msg then
 															CEPGP.Standby.Keyword = msg;
-															CEPGP_print("Обновлено сообщение для На замене EP.");
+															CEPGP_print("Обновлено сообщение для На замене ЕП.");
 														end
 													</OnEditFocusLost>
 													<OnEnter>
@@ -12210,7 +12289,7 @@
 												</Anchors>
 												<Layers>
 													<Layer level="OVERLAY">	
-														<FontString name="$parent_label" inherits="CEPGPOptionStringSmall" text="Награда На замене EP по Игроку вручную" />
+														<FontString name="$parent_label" inherits="CEPGPOptionStringSmall" text="Награда На замене ЕП по Игроку вручную" />
 													</Layer>
 												</Layers>
 												<Scripts>
@@ -12264,7 +12343,7 @@
 													</OnClick>
 													<OnEnter>
 														GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
-														GameTooltip:SetText("Назначьте очки EP всем игрокам в выбранных рангах.");
+														GameTooltip:SetText("Назначьте очки ЕП всем игрокам в выбранных рангах.");
 													</OnEnter>
 													<OnLeave>
 														GameTooltip:Hide();
@@ -12387,7 +12466,7 @@
 															</OnClick>
 														</Scripts>
 													</Button>
-													<Button name="CEPGP_standby_EP" inherits="CEPGPHeaderButton" text="EP">
+													<Button name="CEPGP_standby_EP" inherits="CEPGPHeaderButton" text="ЕП">
 														<Size>
 															<AbsDimension x="50" y="20" />
 														</Size>
@@ -12398,7 +12477,7 @@
 															</OnClick>
 														</Scripts>
 													</Button>
-													<Button name="CEPGP_standby_GP" inherits="CEPGPHeaderButton" text="GP">
+													<Button name="CEPGP_standby_GP" inherits="CEPGPHeaderButton" text="ГП">
 														<Size>
 															<AbsDimension x="50" y="20" />
 														</Size>
@@ -12422,7 +12501,7 @@
 													</Button>
 												</Frames>
 											</ScrollFrame>
-											<Button name="CEPGP_options_standby_ep_award" inherits="GameMenuButtonTemplate" text="Начислить EP">
+											<Button name="CEPGP_options_standby_ep_award" inherits="GameMenuButtonTemplate" text="Начислить ЕП">
 												<Size>
 													<AbsDimension x="125" y="25"/>
 												</Size>
@@ -12436,7 +12515,7 @@
 													</OnClick>
 													<OnEnter>
 														GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
-														GameTooltip:SetText("Добавляйте / вычитайте EP для игроков из списка На Замену.");
+														GameTooltip:SetText("Добавляйте / вычитайте ЕП для игроков из списка На Замену.");
 													</OnEnter>
 													<OnLeave>
 														GameTooltip:Hide();
@@ -12445,7 +12524,7 @@
 											</Button>
 											<Button name="CEPGP_standby_ep_list_add" inherits="GameMenuButtonTemplate" text="Добавить игрока">
 												<Size>
-													<AbsDimension x="100" y="25" />
+													<AbsDimension x="120" y="25" />
 												</Size>
 												<Anchors>
 													<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_options_standby_ep_award">
@@ -12487,7 +12566,7 @@
 													</OnClick>
 												</Scripts>
 											</Button>
-											<Button name="CEPGP_standby_ep_list_purge" inherits="GameMenuButtonTemplate" text="Очистить список">
+											<Button name="CEPGP_standby_ep_list_purge" inherits="GameMenuButtonTemplate" text="Очистить">
 												<Size>
 													<AbsDimension x="100" y="25" />
 												</Size>
@@ -14304,7 +14383,7 @@
 										</Anchors>
 										<Layers>
 											<Layer level="OVERLAY">	
-												<FontString name="$parent_label" inherits="CEPGPOptionStringSmall" text="Для получения добычи требуется минимальный уровень EP." />
+												<FontString name="$parent_label" inherits="CEPGPOptionStringSmall" text="Для получения добычи требуется минимальный уровень ЕП." />
 											</Layer>
 										</Layers>
 										<Scripts>

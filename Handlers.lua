@@ -356,7 +356,12 @@ function CEPGP_handleLoot(event, arg1, arg2)
 					
 					if distGP then
 						if response then
-							local message = player .. " получает награду " .. itemName .. " за " .. gpValue*rate .. " ГП (" .. response .. ")";
+							local message;
+							if response == "Full Price" then
+								message = player .. " получает награду " .. itemName .. " за " .. gpValue*rate .. " ГП (Полную цену)";
+							else
+								message = player .. " получает награду " .. itemName .. " за " .. gpValue*rate .. " ГП (" .. response .. ")";
+							end
 							SendChatMessage(message, CEPGP.Channel, CEPGP_Info.Language);
 						else
 							local message = player.. " получает награду " .. itemName .. " за " .. gpValue*rate .. " ГП";
