@@ -1,4 +1,5 @@
 local GetAddOnMetadata = GetAddOnMetadata or C_AddOns.GetAddOnMetadata
+--CEPGP = LibStub("AceAddon-3.0"):NewAddon("CEPGP");
 
 --[[ Globals ]]--
 
@@ -239,6 +240,7 @@ CEPGP = {};
 local L = LibStub("AceLocale-3.0"):GetLocale("CEPGP");
 local LDB = LibStub("LibDataBroker-1.1", true)
 local LDBIcon = LDB and LibStub("LibDBIcon-1.0", true)
+
 
 --[[ EVENT AND COMMAND HANDLER ]]--
 function CEPGP_OnEvent(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17)

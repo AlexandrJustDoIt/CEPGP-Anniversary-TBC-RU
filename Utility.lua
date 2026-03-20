@@ -395,37 +395,39 @@ end
 function CEPGP_initInterfaceOptions()
 	local panel = {};
 	panel.main = _G["CEPGP_interface_options"];
-	panel.main.name = "ЕП/ГП Годовщина TBC";
+	panel.main.name = "EPGP Aniversary TBC RU";
     local categoryMain, _ = Settings.RegisterCanvasLayoutCategory(panel.main, panel.main.name);
     Settings.RegisterAddOnCategory(categoryMain);
 	CEPGP_Info.category = categoryMain;
 
-	panel.ep = _G["CEPGP_EP_options"];
-	panel.ep.name = "Настройки ЕП";
-	panel.ep.parent = panel.main.name;
-    local categoryEp, _ = Settings.RegisterCanvasLayoutSubcategory(categoryMain, panel.ep, panel.ep.name);
-    Settings.RegisterAddOnCategory(categoryEp);
-	
-	panel.gp = _G["CEPGP_GP_options"];
-	panel.gp.name = "Настройки ГП";
-	panel.gp.parent = panel.main.name;
-	local categoryGp, _ = Settings.RegisterCanvasLayoutSubcategory(categoryMain, panel.gp, panel.gp.name);
-    Settings.RegisterAddOnCategory(categoryGp);
-	
-		panel.standby = _G["CEPGP_standby_options"];
-	panel.standby.name = "Настройки Замен";
-	panel.standby.parent = panel.main.name;
-    local categoryStandby, _ = Settings.RegisterCanvasLayoutSubcategory(categoryMain, panel.standby, panel.standby.name);
-    Settings.RegisterAddOnCategory(categoryStandby);
-	
 	panel.loot = _G["CEPGP_loot_options"];
 	panel.loot.name = "Распределение добычи";
 	panel.loot.parent = panel.main.name;
     local categoryLoot, _ = Settings.RegisterCanvasLayoutSubcategory(categoryMain, panel.loot, panel.loot.name);
     Settings.RegisterAddOnCategory(categoryLoot);
 	
+	panel.ep = _G["CEPGP_EP_options"];
+	panel.ep.name = "ЕП";
+	panel.ep.parent = panel.main.name;
+    local categoryEp, _ = Settings.RegisterCanvasLayoutSubcategory(categoryMain, panel.ep, panel.ep.name);
+    Settings.RegisterAddOnCategory(categoryEp);
+	
+	panel.gp = _G["CEPGP_GP_options"];
+	panel.gp.name = "ГП";
+	panel.gp.parent = panel.main.name;
+	local categoryGp, _ = Settings.RegisterCanvasLayoutSubcategory(categoryMain, panel.gp, panel.gp.name);
+    Settings.RegisterAddOnCategory(categoryGp);
+	
+		panel.standby = _G["CEPGP_standby_options"];
+	panel.standby.name = "Замены";
+	panel.standby.parent = panel.main.name;
+    local categoryStandby, _ = Settings.RegisterCanvasLayoutSubcategory(categoryMain, panel.standby, panel.standby.name);
+    Settings.RegisterAddOnCategory(categoryStandby);
+	
+
+	
 	panel.alt = _G["CEPGP_options_alt_mangement"];
-	panel.alt.name = "Настройки Альтов";
+	panel.alt.name = "Альты";
 	panel.alt.parent = panel.main.name;
     local categoryAlt, _ = Settings.RegisterCanvasLayoutSubcategory(categoryMain, panel.alt, panel.alt.name);
     Settings.RegisterAddOnCategory(categoryAlt);

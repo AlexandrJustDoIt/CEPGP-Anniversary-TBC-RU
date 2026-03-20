@@ -495,7 +495,7 @@ function CEPGP_UpdateVersionScrollBar()
 		if data[1] ~= "Не в сети" or (showOffline and data[1] == "Не в сети") then
 			if search == "RAID" and IsRaidMember(name) or search == "GUILD" and IsGuildMember(name) then	--Nested these statements for efficiency sake
 				local entry = {
-					[1] = string.gsub(name, "-.*", ""),
+					[1] = name,
 					[2] = data[1],
 					[3] = data[2],
 					[4] = data[3]

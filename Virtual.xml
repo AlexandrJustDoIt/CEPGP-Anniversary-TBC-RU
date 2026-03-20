@@ -10,7 +10,10 @@
 		<HighlightFont style="GameFontHighlight"/>
 		<DisabledFont style="GameFontDisable"/>
 	</Button>
-	
+	<Button name="GameMenuButtonTemplateWoW" virtual="true" inherits="GameMenuButtonTemplate" >
+		<NormalFont style="GameFontNormal"/>
+		<HighlightFont style="GameFontHighlight"/>
+	</Button>
 	<Frame name="CEPGPFrameTemplate" virtual="true" enableMouse="true" toplevel="true" hidden="true">
 		<Size>
 			<AbsDimension x="450" y="450" />
