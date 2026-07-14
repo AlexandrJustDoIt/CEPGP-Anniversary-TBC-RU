@@ -36,16 +36,16 @@ function CEPGP_ListButton_OnClick(obj, button)
 					return true;
 				end
 				if verify(CEPGP.Traffic[entry]) then
-					CEPGP_print("You are attempting to purge the following entry:");
+					CEPGP_print("Вы пытаетесь удалить следующую запись:");
 					if CEPGP.Traffic[entry][8] and string.find(CEPGP.Traffic[entry][8], "item:") then -- If an item is associated with the log
 						CEPGP_print("Issuer: " .. CEPGP.Traffic[entry][2] .. ", Action: " .. CEPGP.Traffic[entry][3] .. ", Item: " .. CEPGP.Traffic[entry][8] .. " |c006969FF, Recipient: " .. CEPGP.Traffic[entry][1] .. "|r");
 					else
 						CEPGP_print("Issuer: " .. CEPGP.Traffic[entry][2] .. ", Action: " .. CEPGP.Traffic[entry][3] .. ", Recipient: " .. CEPGP.Traffic[entry][1]);
 					end
 				else
-					CEPGP_print("You are attempting to purge a traffic entry.");
+					CEPGP_print("Вы пытаетесь удалить запись о трафике.");
 				end
-				CEPGP_print("This action cannot be undone. To proceed, press the delete button again.");
+				CEPGP_print("Это действие невозможно отменить. Чтобы продолжить, нажмите кнопку Удалить еще раз.");
 				frame:SetAttribute("delete_confirm", "true");
 			end
 			return;
@@ -87,7 +87,7 @@ function CEPGP_ListButton_OnClick(obj, button)
 		end
 		
 		if not CanEditOfficerNote() and not CEPGP_Info.Debug then
-			CEPGP_print("You don't have access to modify EPGP", 1);
+			CEPGP_print("У вас нет доступа к изменению EPGP", 1);
 			return;
 		end
 		
@@ -106,7 +106,7 @@ function CEPGP_ListButton_OnClick(obj, button)
 			CEPGP_context_amount:SetText("0");
 			CEPGP_context_popup_confirm:SetScript('OnClick', function()
 					if string.find(CEPGP_context_amount:GetText(), '[^0-9%-]') then
-						CEPGP_print("Enter a valid number", true);
+						CEPGP_print("Введите правильное значение", true);
 					else
 						PlaySound(799);
 						HideUIPanel(CEPGP_context_popup);
@@ -143,7 +143,7 @@ function CEPGP_ListButton_OnClick(obj, button)
 				end
 			end
 			if changes then
-				CEPGP_print("Updated EPGP rank exclusions");
+				CEPGP_print("Обновленные исключения из рейтинга EPGP");
 				--CEPGP_Info.Guild.Roster = {};
 				CEPGP_rosterUpdate("GUILD_ROSTER_UPDATE");
 			end
@@ -153,7 +153,7 @@ function CEPGP_ListButton_OnClick(obj, button)
 		
 		if obj == "CEPGP_standby_ep_list_add" then
 			if not CanEditOfficerNote() and not CEPGP_Info.Debug then
-				CEPGP_print("You cannot add players to standby because you cannot modify EPGP", 1);
+				CEPGP_print("Вы не можете добавить игроков в режим замен, так как вы не можете изменить EPGP", 1);
 				return;
 			end
 			ShowUIPanel(CEPGP_context_popup);
@@ -161,9 +161,9 @@ function CEPGP_ListButton_OnClick(obj, button)
 			CEPGP_context_popup_GP_check:Hide();
 			_G["CEPGP_context_popup_EP_check_text"]:Hide();
 			_G["CEPGP_context_popup_GP_check_text"]:Hide();
-			CEPGP_context_popup_header:SetText("Add to Standby");
+			CEPGP_context_popup_header:SetText("Добавить на замену");
 			CEPGP_context_popup_title:Hide();
-			CEPGP_context_popup_desc:SetText("Add a guild member to the standby list\nFormat: Name-RealmName");
+			CEPGP_context_popup_desc:SetText("Добавьте члена гильдии в список замен\nFormat: Name-RealmName");
 			CEPGP_context_amount:SetText("");
 			CEPGP_context_popup_confirm:SetScript('OnClick', function()
 				PlaySound(799);
@@ -176,7 +176,7 @@ function CEPGP_ListButton_OnClick(obj, button)
 
 		if obj == "CEPGP_standby_ep_list_addbyrank" then
 			if not CanEditOfficerNote() and not CEPGP_Info.Debug then
-				CEPGP_print("You cannot add players to standby because you cannot modify EPGP", 1);
+				CEPGP_print("Вы не можете добавить игроков в режим замен, так как вы не можете изменить EPGP", 1);
 				return;
 			end
 			
@@ -339,7 +339,7 @@ function CEPGP_ListButton_OnClick(obj, button)
 			local excluded = frame:GetAttribute("excluded");
 			local name = CEPGP_NormalizeName(_G[obj.. "Info"]:GetText());
 			if excluded then
-				CEPGP_print("You cannot modify EPGP for " .. name .. " because their rank has been excluded");
+				CEPGP_print("Вы не можете изменить EPGP для " .. name .. " потому что их ранг был исключен");
 				return;
 			end
 			ShowUIPanel(CEPGP_context_popup);
@@ -357,7 +357,7 @@ function CEPGP_ListButton_OnClick(obj, button)
 			CEPGP_context_popup_confirm:SetScript('OnClick', function()
 				local amount = CEPGP_context_amount:GetText();
 				if string.find(amount, '[^0-9%-]') then
-					CEPGP_print("Enter a valid number", true);
+					CEPGP_print("Введите правильное значение", true);
 				elseif amount == "" then
 					return;
 				else
@@ -383,12 +383,12 @@ function CEPGP_ListButton_OnClick(obj, button)
 			CEPGP_context_popup_GP_check:SetChecked(nil);
 			CEPGP_context_popup_header:SetText("Модерация гильдии");
 			CEPGP_context_popup_title:SetText("Изменение опчков ЕП");
-			CEPGP_context_popup_desc:SetText("Добавить/отнять очки ЕП \nдля всех членов гильдии.");
+			CEPGP_context_popup_desc:SetText("Добавить/отнять очки ЕП всех.");
 			CEPGP_context_amount:SetText("0");
 			CEPGP_context_popup_confirm:SetScript('OnClick', function()
 				local amount = CEPGP_context_amount:GetText();
 				if string.find(amount, '[^0-9%-]') then
-					CEPGP_print("Enter a valid number", true);
+					CEPGP_print("Введите правильное значение", true);
 				elseif amount == "" then
 					return;
 				else
@@ -425,7 +425,7 @@ function CEPGP_ListButton_OnClick(obj, button)
 					CEPGP_decay_popup:Hide();
 					CEPGP_decay(tonumber(amount), reason, EP, GP, fixed);
 				else
-					CEPGP_print("Enter a valid number", true);
+					CEPGP_print("Введите правильное значение", true);
 				end
 			end);
 			return;
@@ -477,7 +477,7 @@ function CEPGP_ListButton_OnClick(obj, button)
 			CEPGP_context_popup_confirm:SetScript('OnClick', function()
 				local amount = CEPGP_context_amount:GetText();
 				if string.find(amount, '[^0-9%-]') then
-					CEPGP_print("Enter a valid number", true);
+					CEPGP_print("Введите правильное значение", true);
 				elseif amount == "" then
 					return;
 				else
@@ -500,7 +500,7 @@ function CEPGP_ListButton_OnClick(obj, button)
 				local amount = tonumber(CEPGP_award_raid_popup_amount:GetText());
 				local reason = CEPGP_award_raid_popup_reason:GetText();
 				if string.find(amount, '[^0-9%-]') then
-					CEPGP_print("Enter a valid number", true);
+					CEPGP_print("Введите правильное значение", true);
 				elseif amount == "" then
 					return;
 				else

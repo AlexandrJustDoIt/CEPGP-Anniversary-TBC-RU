@@ -1,10 +1,35 @@
 local L = LibStub("AceLocale-3.0"):GetLocale("CEPGP");
 local CanEditOfficerNote = CanEditOfficerNote or C_GuildInfo.CanEditOfficerNote
---local Comm = LibStub("AceAddon-3.0"):NewAddon("CEPGP", "AceComm-3.0");
 
---[[function Comm:OnInitialize()
-	Comm:RegisterComm("CEPGP", CEPGP_IncAddonMsg);
-end]]
+
+local CommsPrefix = "CEPGP"
+local Comms = LibStub("AceAddon-3.0"):NewAddon("Comms", "AceComm-3.0")
+local serialize = LibStub("LibSerialize")
+local codec = LibStub("LibDeflate")
+local prevMsg = ""
+
+function Comms:OnEnable()
+	self:RegisterComm(CommsPrefix, "OnReceive")
+	print("Comms:OnEnable");
+end
+
+-- With compression (recommended):
+function Comms:Send(message, channel, player)
+    local serialized = serialize:Serialize(message);
+    local compressed = codec:CompressDeflate(serialized);
+    local encoded = codec:EncodeForWoWAddonChannel(compressed);
+	self:SendCommMessage(CommsPrefix, encoded, channel, player);
+end
+
+function Comms:OnReceive(prefix, payload, distribution, sender)
+    local decoded = codec:DecodeForWoWAddonChannel(payload);
+    if not decoded then return end
+    local decompressed = codec:DecompressDeflate(decoded);
+    if not decompressed then return end
+    local success, data = serialize:Deserialize(decompressed);
+    if not success then return end	
+	if data ~= nil then CEPGP_IncAddonMsg(data, distribution, sender); end
+end
 
 function CEPGP_NormalizeName(name)
     if not name then
@@ -21,32 +46,19 @@ end
 
 function CEPGP_IncAddonMsg(message, channel, sender)
     sender = CEPGP_NormalizeName(sender);
-	if sender ~= CEPGP_Info.NormalizedPlayerName then
-		table.insert(CEPGP_Info.Logs, {time(), "received", sender, CEPGP_Info.NormalizedPlayerName, message, channel});	--	os.time, time since pc turned on (useful for millisecond precision)
-		if #CEPGP_Info.Logs >= 501 then
-			table.remove(CEPGP_Info.Logs, 1);
-		end
-	end
-	local args = CEPGP_split(message, ";"); -- The broken down message, delimited by semi-colons
-	if sender == CEPGP_Info.NormalizedPlayerName then
-		for i = 1, #CEPGP_Info.MessageStack do
-			if CEPGP_Info.MessageStack[i][1] == message then
-				local message, channel, player = CEPGP_Info.MessageStack[i][1], CEPGP_Info.MessageStack[i][2], CEPGP_Info.MessageStack[i][3];
-				table.insert(CEPGP_Info.Logs, {time(), "sent", CEPGP_Info.NormalizedPlayerName, player, message, channel});
-				if #CEPGP_Info.Logs >= 501 then
-					table.remove(CEPGP_Info.Logs, 1);
-				end
-				CEPGP_Info.MessageStack[i][5] = true;
-			end
-		end
-	end
 
-    --TODO start
-    -- print("CEPGP_IncAddonMsg", message, channel, sender, CEPGP_Info.NormalizedPlayerName, args[1] == "!info", args[2] == CEPGP_Info.NormalizedPlayerName)
-    -- for k, v in pairs(args) do
-    --  print(" arg", k, v)
-    -- end
-    --TODO end
+	if CEPGP_Info.Debug then
+		local debMsg = "CEPGP_IncAddonMsg -- message: " .. message;
+		if channel then  
+			debMsg = debMsg .. ", channel: " .. channel
+		end
+		if sender then  
+			debMsg = debMsg .. ", sender: " .. sender
+		end
+		print(debMsg .. " Time : " .. time());
+	end	
+
+	local args = CEPGP_split(message, ";"); -- The broken down message, delimited by semi-colons
 	
 	if args[1] == "table" then
 		return;
@@ -72,6 +84,22 @@ function CEPGP_IncAddonMsg(message, channel, sender)
 	
 	if args[1] == "ImportEnd" then
 		CEPGP_ExportConfig(sender);
+		return;
+	end
+
+	if args[1] == "GetResists" then			
+			CEPGP_addAddonMsg("UpdateResists;" .. AddStatsResistance(), "RAID");
+	end
+
+	if args[1] == "UpdateResists" then	
+		if not CEPGP_Info.Guild.Roster[sender] then return; end
+		for i = 1, CEPGP.CountRaidTable do
+			if string.gsub(sender, "-.*", "") == _G["RaidButton" .. i .. "Info"]:GetText() then
+				CEPGP_Info.Guild.Resists[sender][1] = args[2];
+				CEPGP_UpdateRaidScrollBar();
+				--print("UpdateResists "..args[2].." "..CEPGP_Info.Guild.Resists[sender][1].." sender "..sender)
+			end	
+		end	
 		return;
 	end
 	
@@ -107,7 +135,7 @@ function CEPGP_IncAddonMsg(message, channel, sender)
 		end
 		
 		CEPGP_settings_import_confirm:Disable();
-		CEPGP_print(sender .. " is updating your CEPGP configuration");
+		CEPGP_print(sender .. " обновляется ваша конфигурация EPGP");
 		return;
 	end
 	
@@ -278,9 +306,9 @@ function CEPGP_IncAddonMsg(message, channel, sender)
 		local response = tonumber(args[3]);
 		if CEPGP.Loot.Acknowledge then
 			if response == 6 then
-				CEPGP_print("You have passed on this item");
+				CEPGP_print("Вы отказались от этого предмета");
 			else
-				CEPGP_print("You have responded with " .. CEPGP_Info.LootSchema[response]);
+				CEPGP_print("Вы ответили - " .. CEPGP_Info.LootSchema[response]);
 			end
 		end
 		CEPGP_respond:Hide();
@@ -390,8 +418,8 @@ function CEPGP_IncAddonMsg(message, channel, sender)
 		if not CEPGP_Info.Traffic.Sharing or CEPGP_Info.Traffic.Source == "" then	--	Protects against one player sharing and then another forcefully sharing (via reloading / script)
 			CEPGP_Info.Traffic.Source = sender;
 		end
-		CEPGP_print(sender .. " is sharing their traffic log with you. This process will start in 10 seconds");
-		CEPGP_traffic_share_status:SetText("Preparing to receive traffic entries");
+		CEPGP_print(sender .. " делится с вами своим журналом посещений. Этот процесс начнется через 10 секунд");
+		CEPGP_traffic_share_status:SetText("Подготовка к приему входных данных о истории");
 		CEPGP_Info.Traffic.ImportEntries = {};
 		return;
 	
@@ -401,14 +429,14 @@ function CEPGP_IncAddonMsg(message, channel, sender)
 			local function cleanup()
 				CEPGP_Info.Traffic.Sharing = false;
 				CEPGP_Info.Traffic.Source = "";
-				CEPGP_traffic_share_status:SetText("Finished processing traffic entries");
+				CEPGP_traffic_share_status:SetText("Завершена обработка входных данных о истории");
 				CEPGP_print("Traffic import has completed");
 				CEPGP_traffic_share:Enable();
 				CEPGP_UpdateTrafficScrollBar();
 				CEPGP_Info.Traffic.ImportEntries = {};
 			end
 			
-			CEPGP_print(#CEPGP_Info.Traffic.ImportEntries .. " Traffic Entries Received. Processing..");
+			CEPGP_print(#CEPGP_Info.Traffic.ImportEntries .. " Получены данные о истории. Обработка..");
 			local sigs = {}; 	--	signatures
 			for _, v in ipairs(CEPGP.Traffic) do
 				if v[9] and v[10] and v[11] then
@@ -435,7 +463,7 @@ function CEPGP_IncAddonMsg(message, channel, sender)
 					for k, v in ipairs(sigs[entry[10]]) do
 						if v == GUID then
 							count = count + 1;
-							CEPGP_traffic_share_status:SetText("Processed " .. count .. " of " .. limit .. " entries");
+							CEPGP_traffic_share_status:SetText("Обработанно " .. count .. " of " .. limit .. " entries");
 							if count >= limit then
 								ticker:Cancel()
 								cleanup();
@@ -578,7 +606,7 @@ function CEPGP_IncAddonMsg(message, channel, sender)
 					end
 				end
 				
-				CEPGP_traffic_share_status:SetText("Processed " .. count .. " of " .. limit .. " entries");
+				CEPGP_traffic_share_status:SetText("Обработанно " .. count .. " of " .. limit .. " entries");
 				if count >= limit then
 					cleanup();
 					ticker:Cancel()
@@ -592,7 +620,7 @@ function CEPGP_IncAddonMsg(message, channel, sender)
 		end);
 		
 		if not success then
-			CEPGP_print("Failed to process imported traffic entries", true);
+			CEPGP_print("Не удалось обработать импортированные записи трафика", true);
 			CEPGP_print(failMsg);
 		end
 		return;
@@ -729,7 +757,7 @@ function CEPGP_IncAddonMsg(message, channel, sender)
 		end);
 		
 		if not success then
-			CEPGP_print("Failed to import traffic entry from " .. sender, true);
+			CEPGP_print("Не удалось импортировать данные о трафике из " .. sender, true);
 			CEPGP_print(failMsg);
 		end
 		return;
@@ -962,7 +990,7 @@ function CEPGP_ExportConfig(player)
 		else
 			CEPGP_Info.Import.List = {};
 			CEPGP_addAddonMsg("ExportConfig;ImportComplete;End;", channel, player);
-			CEPGP_print("Configuration sent successfully");
+			CEPGP_print("Конфигурация успешно отправлена");
 			CEPGP_Info.Import.Running = false;
 			CEPGP_settings_import_confirm:Enable();
 			CEPGP_interface_options_force_sync_button:Enable();
@@ -971,7 +999,7 @@ function CEPGP_ExportConfig(player)
 	end);
 	
 	if not success then
-		CEPGP_print("A problem was encountered while sending your configuration to " .. (player and player or "the Guild"), true);
+		CEPGP_print("При отправке вашей конфигурации возникла проблема. " .. (player and player or "the Guild"), true);
 		CEPGP_print(failMsg);
 	end
 end
@@ -981,7 +1009,7 @@ function CEPGP_SyncConfig()
 	local success, failMsg = pcall(function()
 		local function complete()
 			CEPGP_addAddonMsg("ExportConfig;ImportComplete;End;", channel, player);
-			CEPGP_print("Synchronisation completed successfully");
+			CEPGP_print("Синхронизация успешно завершена.");
 			CEPGP_Info.Import.Running = false;
 			CEPGP_settings_import_confirm:Enable();
 			CEPGP_interface_options_force_sync_button:Enable();
@@ -1002,7 +1030,7 @@ function CEPGP_SyncConfig()
 			end
 		end
 		CEPGP_addAddonMsg("ExportConfig;ImportComplete;Alt", channel, player);
-		CEPGP_print("Successfully exported Alt configuration");
+		CEPGP_print("Конфигурация Alt успешно экспортирована.");
 		
 		--[[	Channels & Decay	]]--
 		
@@ -1015,7 +1043,7 @@ function CEPGP_SyncConfig()
 			CEPGP_addAddonMsg("ExportConfig;LootChannel;" .. CEPGP.LootChannel, channel, player);
 			CEPGP_addAddonMsg("ExportConfig;ImportComplete;LootChannel", channel, player);
 			
-			CEPGP_print("Successfully exported Channel & Decay configuration");
+			CEPGP_print("Конфигурация канала и затухания успешно экспортирована.");
 			
 			--[[	EP	]]--
 			
@@ -1035,7 +1063,7 @@ function CEPGP_SyncConfig()
 						if i >= limit then
 							CEPGP_addAddonMsg("ExportConfig;ImportComplete;EP", channel, player);
 							
-							CEPGP_print("Successfully exported EP configuration");
+							CEPGP_print("Конфигурация EP успешно экспортирована.");
 							
 							--[[	GP	]]--
 							
@@ -1058,7 +1086,7 @@ function CEPGP_SyncConfig()
 								end
 								CEPGP_addAddonMsg("ExportConfig;ImportComplete;GP", channel, player);
 								
-								CEPGP_print("Successfully exported GP configuration");
+								CEPGP_print("Конфигурация GP успешно экспортирована.");
 								
 								--[[	Guild Exclusions & Filter	]]--
 								
@@ -1076,7 +1104,7 @@ function CEPGP_SyncConfig()
 									end
 									CEPGP_addAddonMsg("ExportConfig;ImportComplete;Guild.Filter", channel, player);
 									
-									CEPGP_print("Successfully exported Guild Exclusions & Filtering");
+									CEPGP_print("Исключения и фильтрация гильдий успешно экспортированы.");
 									
 									--[[	Loot	]]--
 									
@@ -1133,7 +1161,7 @@ function CEPGP_SyncConfig()
 										end
 										CEPGP_addAddonMsg("ExportConfig;ImportComplete;Loot", channel, player);
 										
-										CEPGP_print("Successfully exported Loot configuration");
+										CEPGP_print("Конфигурация Loot успешно экспортирована.");
 										
 										--[[	Standby		]]--
 										
@@ -1158,7 +1186,7 @@ function CEPGP_SyncConfig()
 											
 											CEPGP_addAddonMsg("ExportConfig;ImportComplete;Standby", channel, player);
 											
-											CEPGP_print("Successfully exported Standby configuration");
+											CEPGP_print("Конфигурация резервного режима успешно экспортирована.");
 											
 											--[[	Overrides	]]--
 											
@@ -1178,14 +1206,14 @@ function CEPGP_SyncConfig()
 															if i >= limit then
 																CEPGP_addAddonMsg("ExportConfig;ImportComplete;Overrides", channel, player);
 																
-																CEPGP_print("Successfully exported Overrides");
+																CEPGP_print("Переопределения успешно экспортированы.");
 																complete();
 															end
 															i = i + 1;
 														end, limit);
 													end
 												else
-													CEPGP_print("No Overrides to export.. proceeding with synchronisation");
+													CEPGP_print("Нет переопределений для экспорта... продолжается синхронизация.");
 													complete();
 												end
 												
@@ -1207,7 +1235,7 @@ function CEPGP_SyncConfig()
 	
 	if not success then
 		CEPGP_addAddonMsg("ExportConfig;!ERROR", "GUILD");
-		CEPGP_print("A problem was encountered while sending your configuration to the Guild", true);
+		CEPGP_print("При отправке вашей конфигурации гильдии возникла проблема.", true);
 		CEPGP_print(failMsg);
 		CEPGP_settings_import_confirm:Enable();
 		CEPGP_settings_import_verbose_check:Enable();
@@ -1235,7 +1263,7 @@ function CEPGP_OverwriteOption(args, sender, channel)
 		local setting = args[3];
 		
 		if option == "!ERROR" then
-			CEPGP_print("Something went wrong while receiving " .. sender .. (string.sub(sender, #sender, #sender) == "s" and "'" or "'s") .. " configuration. The synchronisation has been cancelled.");
+			CEPGP_print("При получении произошла ошибка. " .. sender .. (string.sub(sender, #sender, #sender) == "s" and "'" or "'s") .. " configuration. The synchronisation has been cancelled.");
 			CEPGP_settings_import_confirm:Enable();
 			CEPGP_settings_import_verbose_check:Enable();
 			CEPGP_interface_options_force_sync_button:Enable();
@@ -1276,7 +1304,7 @@ function CEPGP_OverwriteOption(args, sender, channel)
 						["Overrides"] = 		"GP Overrides",
 						["Standby"] =			"Standby Configuration"
 					}
-					CEPGP_print("Successfully imported " .. map[setting]);
+					CEPGP_print("Успешно импортировано " .. map[setting]);
 				end
 			end
 			return;
@@ -1373,7 +1401,7 @@ function CEPGP_OverwriteOption(args, sender, channel)
 							CEPGP.Loot.GUI.Buttons[index][3] = discount;
 							CEPGP.Loot.GUI.Buttons[index][4] = keyword;
 						else
-							CEPGP_print("There was an issue importing data for response button " .. index .. ". You will need to configure this button manually.", true);
+							CEPGP_print("Возникла проблема при импорте данных для кнопки ответа. " .. index .. ". Вам нужно будет настроить эту кнопку вручную.", true);
 							return;
 						end
 						
@@ -1486,23 +1514,37 @@ function CEPGP_initMessageQueue()
 			C_Timer.After(0.25, function() processQueue(); end);
 		end
 	end
-	
 	processQueue();
 	
 end
 
 function CEPGP_addAddonMsg(message, channel, player)
-	table.insert(CEPGP_Info.MessageStack, {message, channel, player, 0, false});
-	table.insert(CEPGP_Info.Logs, {time(), "queued", CEPGP_Info.NormalizedPlayerName, player, message, channel});
-	if #CEPGP_Info.Logs >= 501 then
-		table.remove(CEPGP_Info.Logs, 1);
-	end
+	if CEPGP_Info.Debug then
+		local debMsg = "CEPGP_addAddonMsg -- message: " .. message;
+		if channel then  
+			debMsg = debMsg .. ", channel: " .. channel
+		end
+		if player then  
+			debMsg = debMsg .. ", player: " .. player
+		end
+		print(debMsg .. " Time : " .. time());
+	end	
+	Comms:Send(message, channel, player);
 end
 
 function CEPGP_SendAddonMsg(stackItem)
 	local status = "unsent";
 	local message, channel, player = stackItem[1], stackItem[2], stackItem[3];
-
+	if CEPGP_Info.Debug then
+		local debMsg = "CEPGP_SendAddonMsg -- message: " .. message;
+		if channel then  
+			debMsg = debMsg .. ", channel: " .. channel
+		end
+		if player then  
+			debMsg = debMsg .. ", player: " .. player
+		end
+		print(debMsg .. " Time : " .. time());
+	end	
 	local conditions = {
 		["CallItem"] = function(id)
 			return (id == CEPGP_Info.Loot.DistributionID and CEPGP_Info.Loot.Distributing);
@@ -1538,70 +1580,37 @@ function CEPGP_SendAddonMsg(stackItem)
 		local func = conditions[args[1]];
 		if args[1] == "LootRsp" then args[2] = args[3]; end
 		if not func(args[2]) then
-			for i = 1, #CEPGP_Info.MessageStack do
-				if CEPGP_Info.MessageStack[i][1] == message then
-					CEPGP_Info.MessageStack[i][5] = true;
-					table.insert(CEPGP_Info.Logs, {time(), "abandoned", CEPGP_Info.NormalizedPlayerName, player, message, channel});
-					if #CEPGP_Info.Logs >= 501 then
-						table.remove(CEPGP_Info.Logs, 1);
-					end
-					return;
-				end
-			end
+			return;
 		end
 	end
 	
 	if channel == "GUILD" and IsInGuild() then
-		--Comm:SendCommMessage("CEPGP", message, "GUILD", nil, "ALERT", AddToLog, message);
-		C_ChatInfo.SendAddonMessage("CEPGP", message, "GUILD");
+		Comms:Send( message, "GUILD");
 		
 	elseif channel == "RAID" then
 		if not UnitInBattleground("player") then
-			--Comm:SendCommMessage("CEPGP", message, "RAID", nil, "ALERT", AddToLog, message);
-			C_ChatInfo.SendAddonMessage("CEPGP", message, "RAID");
+			Comms:Send( message, "RAID");
 		else
-			--Comm:SendCommMessage("CEPGP", message, "INSTANCE_CHAT", nil, "ALERT", AddToLog, message);
-			C_ChatInfo.SendAddonMessage("CEPGP", message, "INSTANCE_CHAT");
+			Comms:Send( message, "INSTANCE_CHAT");
 		end
 		
 	elseif channel == "WHISPER" then
 		if not player then return; end
 		if args[1] == "LootRsp" then
-			C_ChatInfo.SendAddonMessage("CEPGP", message, "RAID");
+			Comms:Send( message, "RAID");
 		else
-			C_ChatInfo.SendAddonMessage("CEPGP", message, "WHISPER", player);
+			Comms:Send( message, "WHISPER", player);
 		end
 		
 	elseif GetNumGroupMembers() > 0 and not IsInRaid() then --Player is in a party but not a raid
-		--Comm:SendCommMessage("CEPGP", message, "PARTY", nil, "ALERT", AddToLog, message);
-		C_ChatInfo.SendAddonMessage("CEPGP", message, "PARTY");
+		Comms:Send( message, "PARTY");
 	elseif (channel == "RAID" or not channel) and IsInRaid() then --Player is in a raid group
-		--Comm:SendCommMessage("CEPGP", message, "RAID", nil, "ALERT", AddToLog, message);
-		C_ChatInfo.SendAddonMessage("CEPGP", message, "RAID");
+		Comms:Send( message, "RAID");
 	elseif IsInGuild() then --If channel is not specified then assume guild
-		--Comm:SendCommMessage("CEPGP", message, "GUILD", nil, "ALERT", AddToLog, message);
-		C_ChatInfo.SendAddonMessage("CEPGP", message, "GUILD");
+		Comms:Send( message, "GUILD");
 	else	--None of the above conditions are met, such as not being in a guild and trying to request a version check. Ditch the message!
-		for i = 1, #CEPGP_Info.MessageStack do
-			if CEPGP_Info.MessageStack[i][1] == message then
-				CEPGP_Info.MessageStack[i][5] = true;
-				table.insert(CEPGP_Info.Logs, {time(), "abandoned", CEPGP_Info.NormalizedPlayerName, player, message, channel});
-				if #CEPGP_Info.Logs >= 501 then
-					table.remove(CEPGP_Info.Logs, 1);
-				end
-				return;
-			end
-		end
+		return;
 	end
-	
-	--[[local function AddToLog(msg, sent, total)
-		if total - sent == 0 then
-			table.insert(CEPGP_Info.Logs, {time(), "sent", CEPGP_Info.NormalizedPlayerName, player, msg, channel});
-			if #CEPGP_Info.Logs > 500 then
-				table.remove(CEPGP_Info.Logs, 1);
-			end
-		end
-	end]]
 end
 
 function CEPGP_ShareTraffic(ID, GUID)
@@ -1626,7 +1635,7 @@ function CEPGP_ShareTraffic(ID, GUID)
 		
 		local str = player .. ";" .. issuer .. ";" .. action .. ";" .. EPB .. ";" .. EPA .. ";" .. GPB .. ";" .. GPA .. ";" .. itemID .. ";" .. tStamp .. ";" .. ID .. ";" .. GUID;
 		if #str > 249 then
-			CEPGP_print("Could not share traffic entry with ID " .. ID .. " / GUID " .. GUID .. ". Character limit exceeded!", true);
+			CEPGP_print("Не удалось предоставить доступ к записи трафика с идентификатором " .. ID .. " / GUID " .. GUID .. ". Превышен лимит символов!", true);
 			return;
 		end
 		
@@ -1634,7 +1643,7 @@ function CEPGP_ShareTraffic(ID, GUID)
 	end);
 	
 	if not success then
-		CEPGP_print("Error encountered while sharing traffic ID " .. ID .. " / GUID " .. GUID, true);
+		CEPGP_print("Ошибка при передаче идентификатора трафика " .. ID .. " / GUID " .. GUID, true);
 		CEPGP_print(failMsg);
 	end
 	
@@ -1667,10 +1676,16 @@ function CEPGP_messageGroup(msg, group, logged, _rank)
 			end
 		end
 		local limit = #names;
-		C_Timer.NewTicker(0.1, function()
-			CEPGP_addAddonMsg(msg, "WHISPER", names[1], logged);
-			table.remove(names, 1);
-		end, limit);
+		C_Timer.NewTicker(0.05, function()
+			if #names == 0 then return end	
+			local target = table.remove(names, 1);
+			if target then
+				local ok, err = pcall(CEPGP_addAddonMsg, msg, "WHISPER", target, logged);
+				if not ok and CEPGP_Info.Debug then
+					print("CEPGP: Ошибка отправки шепота игроку " .. target .. ": " .. tostring(err));
+				end
+			end
+		end, limit);	
 	end
 	
 	local function MessageRaid()
@@ -1695,10 +1710,16 @@ function CEPGP_messageGroup(msg, group, logged, _rank)
 			end
 		end
 		local limit = #names;
-		C_Timer.NewTicker(0.1, function()
-			CEPGP_addAddonMsg(msg, "WHISPER", names[1], logged);
-			table.remove(names, 1);
-		end, limit);
+		C_Timer.NewTicker(0.05, function()
+			if #names == 0 then return end	
+			local target = table.remove(names, 1);
+			if target then
+				local ok, err = pcall(CEPGP_addAddonMsg, msg, "WHISPER", target, logged);
+				if not ok and CEPGP_Info.Debug then
+					print("CEPGP: Ошибка отправки шепота игроку " .. target .. ": " .. tostring(err));
+				end
+			end
+		end, limit);	
 	end
 	
 	local function MessageAssists()
@@ -1725,13 +1746,16 @@ function CEPGP_messageGroup(msg, group, logged, _rank)
 			end
 		end
 		local limit = #names;
-		--C_Timer.NewTicker(0.1, function()
-		--	CEPGP_addAddonMsg(msg, "WHISPER", names[1], logged);
-		--	table.remove(names, 1);
-		--end, limit);
-		for _, name in ipairs(names) do
-			CEPGP_addAddonMsg(msg, "WHISPER", name, logged);
-		end
+		C_Timer.NewTicker(0.05, function()
+			if #names == 0 then return end	
+			local target = table.remove(names, 1);
+			if target then
+				local ok, err = pcall(CEPGP_addAddonMsg, msg, "WHISPER", target, logged);
+				if not ok and CEPGP_Info.Debug then
+					print("CEPGP: Ошибка отправки шепота игроку " .. target .. ": " .. tostring(err));
+				end
+			end
+		end, limit);	
 	end
 		
 	if group == "party" then

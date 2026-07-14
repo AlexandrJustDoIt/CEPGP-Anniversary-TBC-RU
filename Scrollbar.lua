@@ -35,7 +35,9 @@ local function normalizeName(name, noRealm)
 
     return playerName .. "-" .. playerRealm
 end
+
 function CEPGP_UpdateLootScrollBar(PRsort, sort)
+	--print("CEPGP_UpdateLootScrollBar start Time : " .. time());
 	local tempTable = {};
 	local count = 1;
 	CEPGP_Info.LastRun.DistSB = GetTime();
@@ -269,6 +271,7 @@ function CEPGP_UpdateLootScrollBar(PRsort, sort)
 			i = i + 1;
 		end
 	end
+	--print("CEPGP_UpdateLootScrollBar End Time : " .. time());
 end
 
 function CEPGP_UpdateGuildScrollBar()
@@ -324,7 +327,7 @@ function CEPGP_UpdateGuildScrollBar()
 					if i > 1 then
 						_G["GuildButton" .. i]:SetPoint("TOPLEFT", _G["GuildButton" .. i-1], "BOTTOMLEFT", 0, -2);
 					else
-						_G["GuildButton" .. i]:SetPoint("TOPLEFT", _G["CEPGP_guild_scrollframe_container"], "TOPLEFT", 0, -1);
+						_G["GuildButton" .. i]:SetPoint("TOPLEFT", _G["CEPGP_guild_scrollframe_container"], "TOPLEFT", 0, 0);
 					end
 				else
 					frame = _G["GuildButton" .. i];
@@ -381,7 +384,8 @@ function CEPGP_UpdateRaidScrollBar()
 				[6] = (CEPGP_Info.Guild.Roster[name][9] and -1 or GP),
 				[7] = (CEPGP_Info.Guild.Roster[name][9] and -1 or math.floor((EP/GP)*100)/100),
 				[8] = CEPGP_Info.Raid.Roster[i][8],  --Class in English
-				[9] = excluded
+				[9] = excluded,
+				[10] = name
 			};
 		else
 			EP, GP = 0, CEPGP.GP.Min;
@@ -394,7 +398,8 @@ function CEPGP_UpdateRaidScrollBar()
 				[6] = GP,
 				[7] = math.floor((EP/GP)*100)/100,
 				[8] = CEPGP_Info.Raid.Roster[i][8],  --Class in English
-				[9] = false
+				[9] = false,
+				[10] = name
 			};
 		end
 		
@@ -407,6 +412,7 @@ function CEPGP_UpdateRaidScrollBar()
 			--child = nil;
 		end
 	end
+	CEPGP.CountRaidTable = CEPGP_ntgetn(tempTable)
 	for i = 1, CEPGP_ntgetn(tempTable) do
 		if CEPGP_Info.LastRun.RaidSB ~= call or #tempTable ~= #CEPGP_Info.Raid.Roster then
 			return;
@@ -441,11 +447,14 @@ function CEPGP_UpdateRaidScrollBar()
 		_G["RaidButton" .. i .. "Info"]:SetTextColor(colour.r, colour.g, colour.b);
 		_G["RaidButton" .. i .. "Class"]:SetText(tempTable[i][2]);
 		_G["RaidButton" .. i .. "Class"]:SetTextColor(colour.r, colour.g, colour.b);
-		_G["RaidButton" .. i .. "Rank"]:SetText(tempTable[i][3]);
-		_G["RaidButton" .. i .. "Rank"]:SetTextColor(colour.r, colour.g, colour.b);
+		--_G["RaidButton" .. i .. "Rank"]:SetText(tempTable[i][3]);
+		--_G["RaidButton" .. i .. "Rank"]:SetTextColor(colour.r, colour.g, colour.b);
 		_G["RaidButton" .. i .. "EP"]:SetText(EP);		
 		_G["RaidButton" .. i .. "GP"]:SetText(GP);
 		_G["RaidButton" .. i .. "PR"]:SetText(PR);
+
+		_G["RaidButton" .. i .. "Resists"]:SetText(CEPGP_Info.Guild.Resists[tempTable[i][10]][1]);
+		-- print("CEPGP_UpdateRaidScrollBar "..CEPGP_Info.Guild.Resists[tempTable[i][10]][1].. "  "..tempTable[i][10])
 		
 		if tempTable[i][9] then
 			_G["RaidButton" .. i .. "EP"]:SetTextColor(1, 0, 0);

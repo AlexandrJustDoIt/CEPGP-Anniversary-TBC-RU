@@ -106,10 +106,22 @@ function CEPGP_announce(link, x, slotNum, quantity)
 		table.insert(temp, schema);
 		
 		--if CEPGP.Loot.RaidVisibility[1] or CEPGP.Loot.RaidVisibility[2] then
-		for _, schema in ipairs(temp) do
-			CEPGP_addAddonMsg(schema, "RAID");
-		end
+		--for _, schema in ipairs(temp) do
+		--	CEPGP_addAddonMsg(schema, "RAID");
 		--end
+		--end
+		local limit = #temp;
+		C_Timer.NewTicker(0.05, function()
+			if #temp == 0 then return end
+			
+			local target = table.remove(temp, 1);
+			if target then
+				local ok, err = pcall(CEPGP_addAddonMsg, target, "WHISPER");
+				if not ok and CEPGP_Debug then
+					print("CEPGP: Ошибка отправки шепота рейду : " .. tostring(err));
+				end
+			end
+		end, limit);
 		
 		CEPGP_Info.Loot.Distributing = true;
 		CEPGP_toggleGPEdit(false);
@@ -144,7 +156,10 @@ function CEPGP_announce(link, x, slotNum, quantity)
 		end
 		
 		local message = "RaidAssistLootDist;"..link..";"..gp..";true";
-		CEPGP_sendLootMessage(message);
+		C_Timer.After(0.1, function()
+			CEPGP_sendLootMessage(message);
+		end);	
+		--C_Timer.After(0.3, function() CEPGP_addAddonMsg(call, "RAID"); end);
 		
 		--	Messages are much faster when sent via the WHISPER channel, so a delay is needed so the distribution ID can be set in time
 		--C_Timer.After(1, function()
@@ -183,7 +198,7 @@ function CEPGP_announce(link, x, slotNum, quantity)
 			SendChatMessage("ГП Цена: " .. gp, "RAID", CEPGP_Info.Language);
 		end
 		if CEPGP.Loot.GUI.Timer > 0 then
-			SendChatMessage("Время на решение: " .. CEPGP.Loot.GUI.Timer .. (CEPGP.Loot.GUI.Timer > 1 and " seconds" or " second"), "RAID", CEPGP_Info.Language);
+			SendChatMessage("Время на решение: " .. CEPGP.Loot.GUI.Timer .. (CEPGP.Loot.GUI.Timer > 1 and " секунд" or " секунд"), "RAID", CEPGP_Info.Language);
 		end
 
 		SendChatMessage(CEPGP.Loot.Announcement, "RAID", CEPGP_Info.Language);
@@ -247,8 +262,9 @@ function CEPGP_announce(link, x, slotNum, quantity)
 		end
 		call = call .. ";" .. tostring(CEPGP.Loot.GUI.Timer) .. ";" .. CEPGP_Info.Loot.GUID;
 		CEPGP_callItem(id, gp, buttons, CEPGP.Loot.GUI.Timer);
+
 		--CEPGP_addAddonMsg(call, "RAID");
-		CEPGP_addAddonMsg(call, "RAID");
+		C_Timer.After(0.3, function() CEPGP_addAddonMsg(call, "RAID"); end);
 		
 			
 		CEPGP_distribute:Show();
@@ -260,10 +276,10 @@ function CEPGP_announce(link, x, slotNum, quantity)
 		_G["CEPGP_distribute_item_tex"]:SetScript('OnLeave', function() GameTooltip:Hide() end);
 		_G["CEPGP_distribute_GP_value"]:SetText(gp);
 	elseif C_PartyInfo.GetLootMethod() == 2 then
-		CEPGP_print("You are not the Loot Master.", 1);
+		CEPGP_print("Вы не являетесь помошником распределения добычи.", 1);
 		return;
 	elseif C_PartyInfo.GetLootMethod() ~= 2 then
-		CEPGP_print("The loot method is not Master Looter", 1);
+		CEPGP_print("Метод распределения добычи не Ответственный за добычу.", 1);
 	end
 end
 

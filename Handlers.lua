@@ -1,5 +1,6 @@
 local L = LibStub("AceLocale-3.0"):GetLocale("CEPGP");
 
+
 function CEPGP_handleComms(event, arg1, arg2, response, lootGUID)
 	
 	--	arg1 - message | arg2 - sender
@@ -47,15 +48,15 @@ function CEPGP_handleComms(event, arg1, arg2, response, lootGUID)
 			if not CEPGP_Info.Loot.Distributing then return; end
 			
 			if CEPGP_Info.Loot.Expired and arg1 then
-				CEPGP_addAddonMsg("msg;The time to respond for this item has expired. Responses are no longer being accepted!", "WHISPER", name, true);
+				CEPGP_addAddonMsg("msg;Время, отведенное для ответа на этот вопрос, истекло. Ответы больше не принимаются!", "WHISPER", name, true);
 				return;
 			end
 			
 			if CEPGP_Info.Debug then
 				if CEPGP_Info.Loot.ItemsTable[name] then
-					CEPGP_print(name .. " changed their response");
+					CEPGP_print(name .. " изменил ответ");
 				else
-					CEPGP_print(name .. " registered");
+					CEPGP_print(name .. " зарегистрирован");
 				end
 			end
 			
@@ -69,12 +70,12 @@ function CEPGP_handleComms(event, arg1, arg2, response, lootGUID)
 				inGuild = true;
 			end
 			if CEPGP_getResponse(arg1) or CEPGP_getResponseIndex(arg1) or (CEPGP.Loot.ShowPass and response == 6) or response < 6 then
-				CEPGP_addAddonMsg(name..";distslot;"..CEPGP_Info.Loot.DistEquipSlot, "WHISPER", name);
+				--CEPGP_addAddonMsg(name..";distslot;"..CEPGP_Info.Loot.DistEquipSlot, "WHISPER", name); --ответ на выбор мс/ос или пасс зачем?
 			end
 			if not CEPGP.Loot.DelayResponses then
 				if CEPGP_Info.Loot.ItemsTable[name] and CEPGP.Loot.Resubmit then
 					if not CEPGP.Loot.SuppressResubmitResponses then
-						CEPGP_sendChatMessage(name .. " changed their response to " .. reason .. " (" .. PR .. ")", "RAID");
+						CEPGP_sendChatMessage(name .. " изменил ответ на " .. reason .. " (" .. PR .. ")", "RAID");
 					end
 				elseif not CEPGP_Info.Loot.ItemsTable[name] then
 					if inGuild and not CEPGP.Loot.SuppressResponses then
@@ -102,12 +103,12 @@ function CEPGP_handleComms(event, arg1, arg2, response, lootGUID)
 					end
 				end
 			end
-			CEPGP_addResponse(name, response, roll);
+			CEPGP_addResponse(name, response, roll); --ответ клиентам !need на выбор мс/ос или пасс зачем?
 			CEPGP_UpdateLootScrollBar(true);
 		end);
 		
 		if not success then
-			CEPGP_print("Error encountered while processing responses", true);
+			CEPGP_print("Ошибка, возникшая при обработке ответов", true);
 			CEPGP_print(failMsg);
 		end
 		
@@ -240,7 +241,7 @@ function CEPGP_handleCombat(name)
 			local success, failMsg = pcall(awardEP, localName, EP, message);
 			
 			if not success then
-				CEPGP_print("Failed to award raid EP for " .. name, true);
+				CEPGP_print("Не удалось наградить рейд EP для " .. name, true);
 				CEPGP_print(failMsg);
 			end
 			
@@ -253,7 +254,7 @@ function CEPGP_handleCombat(name)
 			success, failMsg = pcall(awardStandbyEP, localName, EP);
 			
 			if not success then
-				CEPGP_print("Failed to award standby EP for " .. name, true);
+				CEPGP_print("Не удалось назначить на замене EP для " .. name, true);
 				CEPGP_print(failMsg);
 			end
 		end
@@ -312,11 +313,11 @@ function CEPGP_handleLoot(event, arg1, arg2)
 			CEPGP_UpdateLootScrollBar();
 		end
 		
-	elseif event == "LOOT_OPENED" and (UnitInRaid("player") or CEPGP_Info.Debug) then
+	elseif event == "LOOT_OPENED" and (UnitInRaid("player") or CEPGP_Info.Debug) and PreviousEvent ~= event then
 		CEPGP_Info.Loot.Open = true;
 		CEPGP_LootFrame_Update();
 		ShowUIPanel(CEPGP_button_loot_dist);
-
+		
 	elseif event == "LOOT_SLOT_CLEARED" then
 		local slotNum = arg1;
 		if not CEPGP_Info.Loot.Distributing and CEPGP_distribute:IsVisible() then

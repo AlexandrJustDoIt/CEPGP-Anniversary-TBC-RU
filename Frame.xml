@@ -81,12 +81,46 @@
 					</OnClick>
 				</Scripts>
 			</Button>
+			<Button name="CEPGP_button_bug" inherits="GameMenuButtonTemplateWoW" text="Из сумки">
+			  <HitRectInsets>
+					<AbsInset left="0" right="0" top="0" bottom="0" />
+				</HitRectInsets>
+				<Size>
+					<AbsDimension x="95" y="21" />
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="LEFT" relativeTo="CEPGP_button_options">
+						<Offset>
+							<AbsDimension x="-98" y="0" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						if not CEPGP_DFB_frame:IsShown() then
+							if CEPGP_DFB_Enabled then
+								if C_PartyInfo.GetLootMethod() ~= 2 then
+									CEPGP_DFB_print("Метод распределения НЕ 'Отвественный за добычу", 1);
+									return
+								elseif CEPGP_isML() ~= 0 then
+									CEPGP_DFB_print("Вы не являететь ответственным за распределение добычи.", 1);
+									return
+								end
+								ShowUIPanel(CEPGP_DFB_frame)
+								OpenAllBags()
+							end
+						else
+							HideUIPanel(CEPGP_DFB_frame)
+						end
+					</OnClick>
+				</Scripts>
+			</Button>
 			<Button name="CEPGP_button_loot_dist" inherits="GameMenuButtonTemplateWoW" text="Список добычи">
 				<Size>
 					<AbsDimension x="100" y="21" />
 				</Size>
 				<Anchors>
-					<Anchor point="RIGHT" relativePoint="LEFT" relativeTo="CEPGP_button_options">
+					<Anchor point="RIGHT" relativePoint="LEFT" relativeTo="CEPGP_button_bug">
 						<Offset>
 							<AbsDimension x="2.5" y="0" />
 						</Offset>
@@ -127,7 +161,7 @@
 			</Button>
 			<Button name="CEPGP_distributing_button" inherits="GameMenuButtonTemplateWoW" text="Распределение добычи" hidden="true">
 				<Size>
-					<AbsDimension x="125" y="22" />
+					<AbsDimension x="165" y="22" />
 				</Size>
 				<Anchors>
 					<Anchor point="TOPRIGHT" x="-10" y="-32.5" />
@@ -332,7 +366,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="RIGHT"  relativeTo="CEPGP_guild_GP">
 								<Offset>
-									<AbsDimension x="52" y="0" />
+									<AbsDimension x="46" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -524,10 +558,13 @@
 				</Frames>
 				<Layers>
 					<Layer level="OVERLAY">
-						<FontString name="CEPGP_guild_CEPGP_mode" inherits="GameFontNormal" text="Гильдия">
-							
+						<FontString name="CEPGP_guild_CEPGP_mode" inherits="GameFontNormal" text="Гильдия">							
 							<Anchors>
-								<Anchor point="CENTER" relativePoint="TOP" />
+								<Anchor point="CENTER" relativePoint="TOP">
+									<Offset>
+										<AbsDimension x="0" y="-20"/>
+									</Offset>
+								</Anchor>
 							</Anchors>
 						</FontString>
 					</Layer>
@@ -539,10 +576,13 @@
 				</Size>
 				<Layers>
 					<Layer level="OVERLAY">
-						<FontString name="CEPGP_raid_CEPGP_mode" inherits="GameFontNormal" text="Рейд">
-							
+						<FontString name="CEPGP_raid_CEPGP_mode" inherits="GameFontNormal" text="Рейд">							
 							<Anchors>
-								<Anchor point="CENTER" relativePoint="TOP" />
+								<Anchor point="CENTER" relativePoint="TOP" >
+									<Offset>
+										<AbsDimension x="0" y="5"/>
+									</Offset>
+								</Anchor>
 							</Anchors>
 						</FontString>
 					</Layer>
@@ -550,19 +590,19 @@
 				<Frames>
 					<ScrollFrame name="RaidScrollFrame" inherits="UIPanelScrollFrameTemplate">
 						<Size>
-							<AbsDimension x="550" y="320" />
+							<AbsDimension x="550" y="360" />
 						</Size>
 						<Anchors>
-							<Anchor point="CENTER" relativePoint="CENTER" relativeTo="GuildScrollFrame">
+							<Anchor point="CENTER" relativePoint="CENTER" relativeTo="CEPGP_raid">
 								<Offset>
-									<AbsDimension x="0" y="0"/>
+									<AbsDimension x="-12" y="14"/>
 								</Offset>
 							</Anchor>
 						</Anchors>
 						<ScrollChild>
 							<Frame name="CEPGP_raid_scrollframe_container">
 								<Size>
-									<AbsDimension x="550" y="300" />
+									<AbsDimension x="550" y="360" />
 								</Size>
 							</Frame>
 						</ScrollChild>
@@ -574,7 +614,7 @@
 						<Anchors>
 							<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
 								<Offset>
-									<AbsDimension x="5" y="-50" />
+									<AbsDimension x="5" y="-5" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -589,9 +629,9 @@
 							<AbsDimension x="30" y="20" />
 						</Size>
 						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="BOTTOMRIGHT" relativeTo="CEPGP_button_guild_traffic">
+							<Anchor point="LEFT" relativePoint="LEFT" relativeTo="CEPGP_raid_name">
 								<Offset>
-									<AbsDimension x="32" y="-7" />
+									<AbsDimension x="120" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -601,31 +641,14 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_raid_rank" inherits="CEPGPHeaderButton" text="Ранг">
-						<Size>
-							<AbsDimension x="30" y="20" />
-						</Size>
-						<Anchors>
-							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_raid_class">
-								<Offset>
-									<AbsDimension x="79" y="0" />
-								</Offset>
-							</Anchor>
-						</Anchors>
-						<Scripts>
-							<OnClick>
-								CEPGP_setCriteria(4, "Raid");
-							</OnClick>
-						</Scripts>
-					</Button>
 					<Button name="CEPGP_raid_EP" inherits="CEPGPHeaderButton" text="ЕП">
 						<Size>
 							<AbsDimension x="30" y="20" />
 						</Size>
 						<Anchors>
-							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_raid_rank">
+							<Anchor point="LEFT" relativePoint="LEFT" relativeTo="CEPGP_raid_class">
 								<Offset>
-									<AbsDimension x="82" y="0" />
+									<AbsDimension x="100" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -637,12 +660,12 @@
 					</Button>
 					<Button name="CEPGP_raid_GP" inherits="CEPGPHeaderButton" text="ГП">
 						<Size>
-							<AbsDimension x="30" y="20" />
+							<AbsDimension x="42" y="20" />
 						</Size>
 						<Anchors>
-							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_raid_EP">
+							<Anchor point="LEFT" relativePoint="LEFT" relativeTo="CEPGP_raid_EP">
 								<Offset>
-									<AbsDimension x="13" y="0" />
+									<AbsDimension x="30" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -657,9 +680,9 @@
 							<AbsDimension x="30" y="20" />
 						</Size>
 						<Anchors>
-							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_raid_GP">
+							<Anchor point="LEFT" relativePoint="LEFT" relativeTo="CEPGP_raid_GP">
 								<Offset>
-									<AbsDimension x="52" y="0" />
+									<AbsDimension x="70" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -669,6 +692,18 @@
 							</OnClick>
 						</Scripts>
 					</Button>
+					<Button name="CEPGP_raid_Resists" inherits="CEPGPHeaderButton" text="Резисты">
+						<Size>
+							<AbsDimension x="30" y="20" />
+						</Size>
+						<Anchors>
+							<Anchor point="LEFT" relativePoint="LEFT" relativeTo="CEPGP_raid_PR">
+								<Offset>
+									<AbsDimension x="70" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</Button>
 					<Button name="CEPGP_raid_add_EP" inherits="GameMenuButtonTemplateWoW" text="Добавить ЕП">
 						<Size>
 							<AbsDimension x="100" y="21" />
@@ -676,7 +711,7 @@
 						<Anchors>
 							<Anchor point="BOTTOMLEFT">
 								<Offset>
-									<AbsDimension x="10" y="25" />
+									<AbsDimension x="30" y="25" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -693,6 +728,30 @@
 							</OnClick>
 						</Scripts>
 					</Button>
+					<Button name="CEPGP_raid_updateResists" inherits="GameMenuButtonTemplateWoW" text="Обновить Резисты">
+						<Size>
+							<AbsDimension x="150" y="21" />
+						</Size>
+						<Anchors>
+							<Anchor point="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="130" y="25" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnLoad>
+								local CanEditOfficerNote = CanEditOfficerNote or C_GuildInfo.CanEditOfficerNote
+								if not CanEditOfficerNote() then
+									self:Hide();
+								end
+							</OnLoad>
+							<OnClick>
+								CEPGP_addAddonMsg("GetResists;", "RAID");
+							</OnClick>
+						</Scripts>
+					</Button>
+					
 				</Frames>
 			</Frame>
 			<Frame name="CEPGP_loot" inherits="CEPGPFrameTemplate">
@@ -1725,7 +1784,7 @@
 			<Layer level="ARTWORK">
 				<Texture file="Interface\DialogFrame\UI-DialogBox-Header">
 					<Size>
-						<AbsDimension x="256" y="64"/>
+						<AbsDimension x="256" y="68"/>
 					</Size>
 					<Anchors>
 						<Anchor point="TOP">
@@ -7555,7 +7614,7 @@
 								<Anchor point="TOP" />
 							</Anchors>
 						</FontString>
-						<FontString name="CEPGP_interface_options_author" inherits="GameFontNormalSmall" text="Автор: Alumian, Терпила ( Специально для гильдии Северные Волки)">
+						<FontString name="CEPGP_interface_options_author" inherits="GameFontNormalSmall" text="Автор: Alumian, AlexanrJustDoIt">
 							<Anchors>
 								<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="CEPGP_interface_options_version">
 									<AbsDimension x="0" y="-10" />
@@ -7565,18 +7624,6 @@
 					</Layer>
 				</Layers>
 				<Frames>
-					<Button name="CEPGP_interface_options_license" inherits="GameMenuButtonTemplateWoW" text="Просмотр EULA">
-						<Size x="125" y="21" />
-						<Anchors>
-							<Anchor point="TOPLEFT" />
-						</Anchors>
-						<Scripts>
-							<OnClick>
-								PlaySound(799);
-								CEPGP_license:Show();
-							</OnClick>
-						</Scripts>
-					</Button>
 					<Button name="CEPGP_interface_options_exclusions" inherits="GameMenuButtonTemplateWoW" text="Исключение ранга">
 						<Size>
 							<AbsDimension x="125" y="21" />

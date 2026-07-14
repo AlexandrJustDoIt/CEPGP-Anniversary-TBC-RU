@@ -277,7 +277,7 @@
 	</CheckButton>
 	<Button name="GuildButtonTemplate" virtual="true">
 		<Size>
-			<AbsDimension x="580" y="20"/>
+			<AbsDimension x="580" y="13"/>
 		</Size>
 		<Attributes>
 			<Attribute name="excluded" type="boolean" value="false" />
@@ -355,7 +355,7 @@
 	</Button>
 	<Button name="RaidButtonTemplate" virtual="true">
 		<Size>
-			<AbsDimension x="580" y="20"/>
+			<AbsDimension x="580" y="13"/>
 		</Size>
 		<Attributes>
 			<Attribute name="excluded" type="boolean" value="false" />
@@ -377,25 +377,16 @@
 					<Anchors>
 						<Anchor point="LEFT" relativePoint="LEFT" relativeTo="$parentInfo">
 							<Offset>
-								<AbsDimension x="147" y="0"/>
-							</Offset>
-						</Anchor>
-					</Anchors>
-				</FontString>
-				<FontString name="$parentRank" inherits="GameFontHighlight" justifyH="LEFT">
-					<Anchors>
-						<Anchor point="LEFT" relativePoint="LEFT" relativeTo="$parentClass">
-							<Offset>
-								<AbsDimension x="112.5" y="0"/>
+								<AbsDimension x="115" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
 				<FontString name="$parentEP" inherits="GameFontHighlight" justifyH="LEFT">
 					<Anchors>
-						<Anchor point="LEFT" relativePoint="LEFT" relativeTo="$parentRank">
+						<Anchor point="LEFT" relativePoint="LEFT" relativeTo="$parentClass">
 							<Offset>
-								<AbsDimension x="115" y="0"/>
+								<AbsDimension x="100" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -413,7 +404,16 @@
 					<Anchors>
 						<Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="$parentGP">
 							<Offset>
-								<AbsDimension x="60" y="0"/>
+								<AbsDimension x="62" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentResists" inherits="GameFontHighlight" justifyH="RIGHT">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parentPR">
+							<Offset>
+								<AbsDimension x="24" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -551,7 +551,7 @@
 	</Button>
 	<Button name="trafficButtonTemplate" virtual="true">
 		<Size>
-			<AbsDimension x="1060" y="22"/>
+			<AbsDimension x="1060" y="36"/>
 		</Size>
 		<Layers>
 			<Layer level="BORDER">
@@ -568,7 +568,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativeTo="$parent" relativePoint="LEFT">
 							<Offset>
-								<AbsDimension x="140" y="0"/>
+								<AbsDimension x="150" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -577,7 +577,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativeTo="$parentIssuer" relativePoint="LEFT">
 							<Offset>
-								<AbsDimension x="440" y="0"/>
+								<AbsDimension x="420" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -1072,28 +1072,28 @@
 				
 				local fString = _G[self:GetName() .. "_string"];
 				local slots = {
-					["HEAD"] =					"Head",
-					["NECK"] =					"Neck",
-					["SHOULDER"] =				"Shoulder",
-					["CLOAK"] =					"Cloak",
-					["CHEST"] =					"Chest",
-					["WRIST"] =					"Wrist",
-					["HAND"] =					"Hand",
-					["WAIST"] =					"Waist",
-					["LEGS"] =					"Legs",
-					["FEET"] =					"Feet",
-					["FINGER"] =				"Finger",
-					["TRINKET"] =				"Trinket",
-					["WEAPONMAINHAND"] =		"Main-Hand Weapon",
-					["WEAPONOFFHAND"] =			"Off-Hand Weapon",
-					["HOLDABLE"] =				"Holdable Off-Hand",
-					["WEAPON"] =				"One-Handed Weapon",
-					["SHIELD"] =				"Shield",
-					["WAND"] =					"Wand",
-					["RANGED"] =				"Ranged",
-					["RELIC"] =					"Relic",
-					["THROWN"] =				"Thrown",
-					["2HWEAPON"] =				"Two-Handed Weapon"
+					["HEAD"] =					"Голова",
+					["NECK"] =					"Шея",
+					["SHOULDER"] =				"Плечи",
+					["CLOAK"] =					"Спина",
+					["CHEST"] =					"Грудь",
+					["WRIST"] =					"Запястья",
+					["HAND"] =					"Кисти рук",
+					["WAIST"] =					"Пояс",
+					["LEGS"] =					"Ноги",
+					["FEET"] =					"Ступни",
+					["FINGER"] =				"Палец",
+					["TRINKET"] =				"Аксессуар",
+					["WEAPONMAINHAND"] =		"Правая рука Оружие",
+					["WEAPONOFFHAND"] =			"Левая рука Оружие",
+					["HOLDABLE"] =				"Носимый в Левая рука",
+					["WEAPON"] =				"Одноручное Оружие",
+					["SHIELD"] =				"Щит",
+					["WAND"] =					"Жезл",
+					["RANGED"] =				"Дальний бой",
+					["RELIC"] =					"Реликвия",
+					["THROWN"] =				"Метательное",
+					["2HWEAPON"] =				"Двуручное Оружие"
 				}
 				
 				local slot = strsub(self:GetName(), 15, strfind(self:GetName(), "_weight")-1);

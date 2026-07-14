@@ -6,6 +6,7 @@ local GetAddOnInfo = GetAddOnInfo or C_AddOns.GetAddOnInfo
 local GuildRoster = GuildRoster or C_GuildInfo.GuildRoster
 local CanEditOfficerNote = CanEditOfficerNote or C_GuildInfo.CanEditOfficerNote
 local GetBuildInfo = GetBuildInfo
+local CalcGPPrevId = 0
 
 function CEPGP_initialise()
 	_, _, _, CEPGP_Info.ElvUI = GetAddOnInfo("ElvUI");
@@ -43,6 +44,7 @@ function CEPGP_initialise()
 	end
 	
 	local check;
+
 	check = C_Timer.NewTicker(0.25, function()
 		if IsInGuild() then
 			GuildRoster()
@@ -71,11 +73,22 @@ function CEPGP_initialise()
 			end
 		end
 		DEFAULT_CHAT_FRAME:AddMessage("|c00FFC100CEPGP Годовщина TBC RU Версия: " .. CEPGP_Info.Version.Number .. " " .. CEPGP_Info.Version.Build .. " Загружена|r");
+
+		for i = 1, GetNumGuildMembers() do 
+			local name, rank, rankIndex, level, class, zone, publicNote, officerNote, online, status, classFileName, achievementPoints, achievementRank, isMobile, canSoR, repStanding, guid = GetGuildRosterInfo(i);
+				if name then
+					name = Ambiguate(name, "mail");
+					CEPGP_Info.Guild.Resists[name] = {
+						[1] = ""
+					};	
+				end	
+		end	
+
 		if CEPGP.ChangelogVersion ~= CEPGP_Info.Version.Number then
-			CEPGP_print("A new version has been installed.");
+			CEPGP_print("Установлена ​​новая версия.");
 			CEPGP.ChangelogVersion = CEPGP_Info.Version.Number;
 		end
-		C_Timer.After(3, function() CEPGP_initMessageQueue(); end);
+		--C_Timer.After(3, function() CEPGP_initMessageQueue(); end);
 	end);
 end
 
@@ -149,6 +162,8 @@ function CEPGP_initSavedVars()
 	CEPGP.Attendance = CEPGP.Attendance or {};
 	CEPGP.Backups = CEPGP.Backups or {};
 	CEPGP.Traffic = CEPGP.Traffic or {};
+
+	CEPGP.CountRaidTable = 0;
 	
 	--[[	EP States	]]--
 	CEPGP.EP = CEPGP.EP or {};
@@ -511,10 +526,10 @@ function CEPGP_addResponse(player, response, roll)
 	local message = "!need;"..player..";"..CEPGP_Info.Loot.DistributionID..";"..response..";"..roll;
 	CEPGP_distribute_responses_received:SetText(CEPGP_ntgetn(CEPGP_Info.Loot.ItemsTable) .. " of " .. CEPGP_Info.Loot.NumOnline .. " Responses Received");
 	
-	CEPGP_addAddonMsg("Acknowledge;" .. CEPGP_Info.Loot.GUID .. ";" .. response, "WHISPER", player);
+	--CEPGP_addAddonMsg("Acknowledge;" .. CEPGP_Info.Loot.GUID .. ";" .. response, "WHISPER", player); -- подтвержение ответа зачем?
 		--	Shares the loot distribution results with the raid / assists
 	if not CEPGP.Loot.DelayResponses then
-		CEPGP_sendLootMessage(message);
+		--CEPGP_sendLootMessage(message);
 	end
 	if player == CEPGP_Info.NormalizedPlayerName then
 		CEPGP_respond:Hide();
@@ -573,7 +588,7 @@ function CEPGP_announceResponses()
 			end
 			local message = "!need;"..name..";"..CEPGP_Info.Loot.DistributionID..";"..CEPGP_Info.Loot.ItemsTable[name][3]..";"..CEPGP_Info.Loot.ItemsTable[name][4];
 			if CEPGP.Loot.DelayResponses then
-				CEPGP_sendLootMessage(message);
+				--CEPGP_sendLootMessage(message); -- зачем ответы !need обратно всем отсылать?
 			end
 		end
 		if label ~= "" and label ~= "Pass" and msg ~= label .. ": " then
@@ -607,12 +622,16 @@ function CEPGP_sendLootMessage(message)
 			end
 		end
 		local limit = #players;
-		if limit > 0 then
-			C_Timer.NewTicker(0.1, function()
-				CEPGP_addAddonMsg(message, "WHISPER", players[1]);
-				table.remove(players, 1);
-			end, limit);
-		end
+		C_Timer.NewTicker(0.05, function()
+			if #players == 0 then return end
+			local target = table.remove(players, 1);
+			if target then
+				local ok, err = pcall(CEPGP_addAddonMsg, msg, "WHISPER", target, logged);
+				if not ok and CEPGP_Debug then
+					print("CEPGP: Ошибка отправки шепота игроку " .. target .. ": " .. tostring(err));
+				end
+			end
+		end, limit);
 	end
 	
 	if CEPGP.Loot.RaidVisibility[2] then
@@ -708,17 +727,17 @@ function CEPGP_calcGP(link, quantity, id)
 			if classID == 2 and subClassID == 19 then slot = "INVTYPE_WAND" end;
 			if classID == 2 and (subClassID == 2 or subClassID == 3 or subClassID == 18) then slot = "INVTYPE_RANGED" end;
 			
-			if CEPGP_Info.Debug then
+			if CEPGP_Info.Debug and CalcGPPrevId ~= id and CEPGP_Info.DebugShowItemInfo then
 				local quality = rarity == 0 and "Poor" or rarity == 1 and "Common" or rarity == 2 and "Uncommon" or rarity == 3 and "Rare" or rarity == 4 and "Epic" or "Legendary";
 				CEPGP_print("Name: " .. name);
 				CEPGP_print("Rarity: " .. quality);
 				CEPGP_print("Item Level: " .. ilvl);
 				CEPGP_print("Class ID: " .. classID);
 				CEPGP_print("Subclass ID: " .. subClassID);
-				CEPGP_print(GetItemSubClassInfo(classID, subClassID), false);
 				CEPGP_print("Item Type: " .. itemType);
 				CEPGP_print("Subtype: " .. subType);
 				CEPGP_print("Slot: " .. slot);
+				CalcGPPrevId = id
 			end
 			slot = strsub(slot,strfind(slot,"INVTYPE_")+8,string.len(slot));
 			slot = CEPGP.GP.SlotWeights[slot];
@@ -773,18 +792,17 @@ function CEPGP_calcGP(link, quantity, id)
 		if classID == 2 and subClassID == 19 then slot = "INVTYPE_WAND" end;
 		if classID == 2 and (subClassID == 2 or subClassID == 3 or subClassID == 18) then slot = "INVTYPE_RANGED" end;
 		
-		
-		if CEPGP_Info.Debug then
+		if CEPGP_Info.Debug and CalcGPPrevId ~= id and CEPGP_Info.DebugShowItemInfo then
 			local quality = rarity == 0 and "Poor" or rarity == 1 and "Common" or rarity == 2 and "Uncommon" or rarity == 3 and "Rare" or rarity == 4 and "Epic" or "Legendary";
 			CEPGP_print("Name: " .. name);
 			CEPGP_print("Rarity: " .. quality);
 			CEPGP_print("Item Level: " .. ilvl);
 			CEPGP_print("Class ID: " .. classID);
 			CEPGP_print("Subclass ID: " .. subClassID);
-			CEPGP_print(GetItemSubClassInfo(classID, subClassID), false);
 			CEPGP_print("Item Type: " .. itemType);
 			CEPGP_print("Subtype: " .. subType);
 			CEPGP_print("Slot: " .. slot);
+			CalcGPPrevId = id
 		end
 		slot = strsub(slot,strfind(slot,"INVTYPE_")+8,string.len(slot));
 		slot = CEPGP.GP.SlotWeights[slot];
@@ -809,20 +827,22 @@ function CEPGP_calcGP(link, quantity, id)
 end
 
 function CEPGP_addGPTooltip(frame)
+	
 	if not CEPGP.GP.Tooltips or not frame:GetItem() or frame:GetItem() == nil or frame:GetItem() == "" then return; end
 	local _, link = frame:GetItem();
 	local id = CEPGP_getItemID(CEPGP_getItemString(link));
 	if not CEPGP_itemExists(tonumber(id)) then return; end
 	local name = GetItemInfo(id);
+	frame:AddLine(" ");	
 	if not name and CEPGP_itemExists(tonumber(id)) then
 		local item = Item:CreateFromItemID(tonumber(id));
 		item:ContinueOnItemLoad(function()
 			local gp = CEPGP_calcGP(_, 1, id);
-			frame:AddLine("GP Value: " .. gp, {1,1,1});	
+			frame:AddLine("|cFF80FF80Стоимость ГП: " .. gp, {1,1,1});	
 		end);
 	else
 		local gp = CEPGP_calcGP(_, 1, id);
-		frame:AddLine("GP Value: " .. gp, {1,1,1});
+		frame:AddLine("|cFF80FF80Стоимость ГП: " .. gp, {1,1,1});
 	end
 	
 end
@@ -1155,7 +1175,9 @@ function CEPGP_rosterUpdate(event)
 					return;
 				end
 				i = i + 1;
-				local name, rank, rankIndex, _, class, _, _, _, online, _, classFileName = GetGuildRosterInfo(i);
+				local name, rank, rankIndex, level, class, zone, publicNote, officerNote, online, status, classFileName, achievementPoints, achievementRank, isMobile, canSoR, repStanding, guid = GetGuildRosterInfo(i);
+
+				--print(name.." "..i .." "..guid )
 				if name then
 					name = Ambiguate(name, "mail");
 					tempRoster[name] = nil;
@@ -1171,8 +1193,10 @@ function CEPGP_rosterUpdate(event)
 						[7] = classFileName,
 						[8] = online,
 						[9] = (CEPGP.Guild.Exclusions[rankIndex+1] and true or nil),
-						[10] = (CEPGP.Guild.Filter[rankIndex+1] and true or nil)
+						[10] = (CEPGP.Guild.Filter[rankIndex+1] and true or nil),
+						[11] = guid
 					};
+										
 					if CEPGP_Info.Import.Running or CEPGP_Info.Traffic.Sharing then
 						if CEPGP_Info.Import.Running and CEPGP_Info.Import.Source == name then
 							if not online then
@@ -1207,6 +1231,7 @@ function CEPGP_rosterUpdate(event)
 					update();
 				end
 			end, limit);
+			CEPGP_Info.Guild.Init = true
 		end
 		
 	elseif event == "GROUP_ROSTER_UPDATE" then
@@ -2284,9 +2309,9 @@ function CEPGP_callItem(id, gp, buttons, timeout)
 	else
 		CEPGP_respond_gp_change:Hide();
 	end
-	CEPGP_respond_timeout_string:SetText("Time Remaining: " .. timer);
-	CEPGP_distribute_time:SetText("Time Remaining: " .. timer);
-	CEPGP_distribute_responses_received:SetText("0 of " .. CEPGP_Info.Loot.NumOnline .. " Responses Received");
+	CEPGP_respond_timeout_string:SetText("Оставшееся время: " .. timer);
+	CEPGP_distribute_time:SetText("Оставшееся время: " .. timer);
+	CEPGP_distribute_responses_received:SetText("0 of " .. CEPGP_Info.Loot.NumOnline .. " Полученные ответы");
 	
 	if tonumber(timeout) > 0 then
 		local callback;
@@ -2296,13 +2321,13 @@ function CEPGP_callItem(id, gp, buttons, timeout)
 				return;
 			end
 			if CEPGP_ntgetn(CEPGP_Info.Loot.ItemsTable) == CEPGP_Info.Loot.NumOnline then
-				CEPGP_distribute_time:SetText("All Responses Received");
+				CEPGP_distribute_time:SetText("Все ответы полученны");
 				CEPGP_Info.Loot.Expired = true;
 				callback:Cancel()
 				return;
 			end
 			if timer == 0 then
-				CEPGP_distribute_time:SetText("Response Time Expired");
+				CEPGP_distribute_time:SetText("Время ответов истекло");
 				if CEPGP_isML() == 0 and CEPGP.Loot.DelayResponses then
 					CEPGP_announceResponses();
 				end
@@ -2316,8 +2341,8 @@ function CEPGP_callItem(id, gp, buttons, timeout)
 				return;
 			end
 			timer = timer - 1;
-			CEPGP_respond_timeout_string:SetText("Time Remaining: " .. timer);
-			CEPGP_distribute_time:SetText("Time Remaining: " .. timer);
+			CEPGP_respond_timeout_string:SetText("Оставшееся время: " .. timer);
+			CEPGP_distribute_time:SetText("Оставшееся время: " .. timer);
 		end, timeout);
 	else
 		CEPGP_respond_timeout_string:Hide();
@@ -2339,7 +2364,7 @@ function CEPGP_callItem(id, gp, buttons, timeout)
 		item:ContinueOnItemLoad(function()
 				_, link, _, _, _, _, _, _, _, tex, _, classID, subClassID = GetItemInfo(id)
 				if not CEPGP_canEquip(classID, subClassID) and CEPGP.Loot.AutoPass then
-					CEPGP_print("Cannot equip " .. link .. "|c006969FF. Passing on item.|r");
+					CEPGP_print("Невозможно одеть " .. link .. "|c006969FF. Пропустить предмет.|r");
 					CEPGP_addAddonMsg("LootRsp;6", "WHISPER", CEPGP_Info.Loot.Master);
 					return;
 				end
@@ -2369,7 +2394,7 @@ function CEPGP_callItem(id, gp, buttons, timeout)
 			end);
 	else
 		if not CEPGP_canEquip(classID, subClassID) and CEPGP.Loot.AutoPass then
-			CEPGP_print("Cannot equip " .. link .. "|c006969FF. Passing on item.|r");
+			CEPGP_print("Невозможно одеть " .. link .. "|c006969FF. Пропустить предмет.|r");
 			CEPGP_addAddonMsg("LootRsp;6", "WHISPER", CEPGP_Info.Loot.Master);
 			return;
 		end
@@ -2624,7 +2649,7 @@ function CEPGP_importStandings()
 						--local rankIndex = select(3, GetGuildRosterInfo(index));
 						if not CEPGP_Info.Guild.Roster[name][9] then
 							output:SetText(output:GetText() .. "\nProcessing record: " .. name);
-							GuildRosterSetOfficerNote(index, EP .. "," .. GP);
+							C_GuildInfo.SetNote(CEPGP_Info.Guild.Roster[name][11], EP .. "," .. GP, false);
 							CEPGP_import_progress_scrollframe:SetVerticalScroll(CEPGP_import_progress_scrollframe:GetVerticalScroll()+12);
 						end
 					end
@@ -2837,89 +2862,18 @@ function CEPGP_getMain(name)
 	end
 end
 
---[[function CEPGP_syncAltStandings(main)
-	if not main or not CEPGP.Alt.Links[main] then return; end
-	if not CEPGP_Info.Guild.Roster[main] then return; end
-	local mainIndex;
-	for k, alt in pairs(CEPGP.Alt.Links[main]) do
-		if CEPGP_Info.Guild.Roster[alt] then
-			mainIndex = CEPGP_getIndex(main, CEPGP_Info.Guild.Roster[main] or nil);
-			
-			if CEPGP_Info.Guild.Roster[main][9] then
-				CEPGP_print("Could not synchronise EPGP from " .. main .. " because they are in an excluded rank", true);
-				return;
-			end
-			
-			local index = CEPGP_getIndex(alt);
-			local mEP,mGP = CEPGP_getEPGP(main, CEPGP_getIndex(main));	-- Standings of main
-			local EP,GP = CEPGP_getEPGP(alt, index);	-- Standings of alt
-			if CEPGP.Alt.SyncEP and CEPGP.Alt.SyncGP then
-				GuildRosterSetOfficerNote(index, mEP .. "," .. mGP);
-			elseif CEPGP.Alt.SyncEP then
-				GuildRosterSetOfficerNote(index, mEP .. "," .. GP);
-			elseif CEPGP.Alt.SyncGP then
-				GuildRosterSetOfficerNote(index, EP .. "," .. mGP);
-			end
-		end
-	end
+function vashjmacro(itemid)
+  if GetItemCount(itemid) > 0 then 
+    local item = GetItemInfo(itemid)
+    local t = "target"
+    local tname = UnitName(t)
+    if not tname then return end
+    if IsItemInRange(item, t) == true then
+      SendChatMessage("В ТЕБЕ ЕСТЬ "..item.."!!!, ПЕРЕДАВАЙ!", "WHISPER", nil, tname)
+      SendChatMessage("---> "..tname.." ПОЛУЧИЛ "..item.." <---", "RAID")
+    else
+      SendChatMessage("Вы вне зоны моего действия, подойдите ближе (сигнал миникарты), чтобы я мог бросить "..item.." для тебя!", "WHISPER", nil, tname)
+      Minimap:PingLocation(0,0)
+    end
+  end
 end
-
-function CEPGP_syncToMain(alt, index, main)
-	if not alt or not main then return; end
-	if not CEPGP_Info.Guild.Roster[main] then return; end
-	local mainIndex = CEPGP_getIndex(main);
-	
-	if CEPGP_Info.Guild.Roster[main][9] then
-		CEPGP_print("Could not synchronise EPGP with " .. main .. " because they are in an excluded rank", true);
-		return;
-	end
-	
-	local altEP, altGP = CEPGP_getEPGP(alt, index);
-	local mainEP, mainGP = CEPGP_getEPGP(main, mainIndex);
-	
-	if CEPGP.Alt.SyncEP and CEPGP.Alt.SyncGP then
-		GuildRosterSetOfficerNote(mainIndex, altEP .. "," .. altGP);
-	elseif CEPGP.Alt.SyncEP then
-		GuildRosterSetOfficerNote(mainIndex, altEP .. "," .. mainGP);
-	elseif CEPGP.Alt.SyncGP then
-		GuildRosterSetOfficerNote(mainIndex, mainEP .. "," .. altGP);
-	end
-	
-	C_Timer.After(1, function()
-		CEPGP_syncAltStandings(main);
-	end);
-end
-
-function CEPGP_addAltEPGP(EP, GP, alt, main)
-	local success, failMsg = pcall(function()
-		if not main or CEPGP.Alt.BlockAwards then return; end
-		local index = CEPGP_getIndex(alt);
-		local mainEP, mainGP = CEPGP_getEPGP(main, CEPGP_Info.Guild.Roster[main][1]);
-		local altEP, altGP = CEPGP_getEPGP(alt, index);
-		
-		mainEP = math.max(mainEP + EP, 0);
-		mainGP = math.max(mainGP + GP, CEPGP.GP.Min + math.max(GP, 0));
-		
-		altEP = math.max(altEP + EP, 0);
-		altGP = math.max(altGP + GP, CEPGP.GP.Min + math.max(GP, 0));
-		
-		if CEPGP.Alt.SyncEP and CEPGP.Alt.SyncGP then
-			GuildRosterSetOfficerNote(index, mainEP .. "," .. mainGP);	--	Both EPGP are being synced
-		elseif CEPGP.Alt.SyncEP then
-			GuildRosterSetOfficerNote(index, mainEP .. "," .. altGP);	--	Only EP is being synced
-		elseif CEPGP.Alt.SyncGP then
-			GuildRosterSetOfficerNote(index, altEP .. "," .. mainGP);	--	Only GP is being synced
-		else
-			GuildRosterSetOfficerNote(index, altEP .. "," .. altGP);	--	Alt standings are not synced with main
-		end
-		
-		C_Timer.After(1, function()
-			CEPGP_syncToMain(alt, index, main);
-		end);
-	end);
-	
-	if not success then
-		CEPGP_print("Could not process changes to EPGP for " .. alt, true);
-		CEPGP_print(failMsg, true);
-	end
-end]]
